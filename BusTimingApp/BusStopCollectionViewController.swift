@@ -29,7 +29,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         // set collection view controller background: self.collectionView.backgroundColor = 
         // register custom bus cells
         
-        self.busStopData.readJSON(BusID: stopID)
+        self.busStopData.stopId = stopID
         collectionView?.register(BusCell.self, forCellWithReuseIdentifier: busCellId)
         collectionView?.backgroundColor = UIColor(white: 0.97, alpha: 1)
     }

@@ -26,7 +26,7 @@ class BusCell: UICollectionViewCell {
         btn.backgroundColor = .black
         btn.addTarget(self, action: #selector(updateBusTimings), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 28)
-        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 30)
+        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 25)
         btn.layer.cornerRadius = 12
         btn.clipsToBounds = true
         return btn

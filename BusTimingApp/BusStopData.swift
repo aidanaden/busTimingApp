@@ -20,7 +20,6 @@ class BusData: NSObject {
     
     func updateTimings(completed: @escaping (_ downloadComplete: Bool) -> Void) {
         
-        print("updating!")
         var json: JSON!
         
         DispatchQueue.global().async {
@@ -29,7 +28,7 @@ class BusData: NSObject {
                 
                 guard let busURLString = self.busUrl, let stopId = self.stopNumber else { return }
                 
-                let urlString = busURLString + stopId
+                let urlString = busURLString + stopId + "&ServiceNo=" + self.busNumber!
                 guard let url = URL(string: urlString) else { return }
                 let data = try Data(contentsOf: url)
                 json = JSON(data: data)
@@ -38,47 +37,65 @@ class BusData: NSObject {
                 print("Couldn't update bus timings!")
             }
             
-            let busesDictionary = json["services"].arrayValue
+            let busesDictionary = json["Services"].arrayValue
             for bus in busesDictionary {
                 
-                let busNo = bus["no"].stringValue
-                
-                if busNo == self.busNumber {
+                let durationDate = bus["NextBus"]["EstimatedArrival"].stringValue
+                let subsequentDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
                     
-                    let durationMs = bus["next"]["duration_ms"].doubleValue
-                    let subsequentMs = bus["subsequent"]["duration_ms"].doubleValue
+                self.nextBusTiming = self.convertDateFormater(date: durationDate)
+                self.subsequentBusTiming = self.convertDateFormater(date: subsequentDate)
                     
-                    self.nextBusTiming = self.msToMinute(ms: durationMs)
-                    self.subsequentBusTiming = self.msToMinute(ms: subsequentMs)
-                    
-                    completed(true)
-                }
+                completed(true)
             }
         }
     }
     
-    func msToMinute(ms: Double) -> String {
-        let minuteValue = Int(ms/60000)
-        if minuteValue <= 0 {
-            return "Arr"
+    func convertDateFormater(date: String) -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        
+        if let date = dateFormatter.date(from: date) {
+            
+            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
+            dateFormatter.timeZone = TimeZone(identifier: "SGT")
+            let timeDifference = Int(date.timeIntervalSince(Date())/60)
+            
+            if timeDifference <= 0 {
+                return "Arr"
+            }
+            
+            return "\(timeDifference)"
         }
-        return "\(minuteValue)"
+        
+        return  ""
     }
-    
 }
 
 class BusStopData: NSObject {
     
+    
+//    private var busURL = "https://arrivelah.herokuapp.com/?id="
+    private var itachBusUrl = "http://api.itachi1706.com/api/busarrival.php?BusStopID="
+    
     var busesData = [BusData]()
     
-    private var busURL = "https://arrivelah.herokuapp.com/?id="
+    var stopId: String? {
+        didSet {
+            if let stopID = stopId {
+                readJSON(BusID: stopID)
+            }
+        }
+    }
     
     func readJSON(BusID: String) {
         
         var json: JSON!
         
         do {
-            let urlString = busURL + BusID
+            let urlString = itachBusUrl + BusID
             guard let url = URL(string: urlString) else { return }
             let data = try Data(contentsOf: url)
             json = JSON(data: data)
@@ -86,27 +103,41 @@ class BusStopData: NSObject {
             print("Couldn't download bus data")
         }
         
-        let busesDictionary = json["services"].arrayValue
+        let busesDictionary = json["Services"].arrayValue
         for bus in busesDictionary {
             let busData = BusData()
-            let durationMs = bus["next"]["duration_ms"].doubleValue
-            let subsequentMs = bus["subsequent"]["duration_ms"].doubleValue
-    
+            let nextBusDate = bus["NextBus"]["EstimatedArrival"].stringValue
+            let subsequentBusDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
+            
             busData.stopNumber = BusID
-            busData.busUrl = busURL
-            busData.busNumber = bus["no"].stringValue
-            busData.nextBusTiming = msToMinute(ms: durationMs)
-            busData.subsequentBusTiming = msToMinute(ms: subsequentMs)
+            busData.busUrl = itachBusUrl
+            busData.busNumber = bus["ServiceNo"].stringValue
+            busData.nextBusTiming = convertDateFormater(date: nextBusDate)
+            busData.subsequentBusTiming = convertDateFormater(date: subsequentBusDate)
             busesData.append(busData)
         }
-        
     }
     
-    func msToMinute(ms: Double) -> String {
-        let minuteValue = Int(ms/60000)
-        if minuteValue <= 0 {
-            return "Arr"
+    func convertDateFormater(date: String) -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        
+        if let date = dateFormatter.date(from: date) {
+            
+            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
+            dateFormatter.timeZone = TimeZone(identifier: "SGT")
+            let timeDifference = Int(date.timeIntervalSince(Date())/60)
+            
+            if timeDifference <= 0 {
+                return "Arr"
+            }
+            
+            print(timeDifference)
+            return "\(timeDifference)"
         }
-        return "\(minuteValue)"
+        
+        return  ""
     }
 }
