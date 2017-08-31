@@ -26,13 +26,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "525860480.824005"
+            timestampString = "525884960.521537"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "updateBusTimings()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusTimingApp/BusCell.swift"
+            timestampString = "525884960.521537"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "updateBusTimings()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BusTimingApp.BusCell.updateBusTimings () -&gt; ()"
+                  moduleName = "BusTimingApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aidanaden/Desktop/BusTimingApp/BusTimingApp/BusCell.swift"
+                  timestampString = "525881413.788542"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "140">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BusTimingApp.BusCell.updateBusTimings () -&gt; ()"
+                  moduleName = "BusTimingApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aidanaden/Desktop/BusTimingApp/BusTimingApp/BusCell.swift"
+                  timestampString = "525881413.796082"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "454">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

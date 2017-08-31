@@ -18,39 +18,41 @@ class BusData: NSObject {
     var nextBusTiming: String?
     var subsequentBusTiming: String?
     
-    func updateTimings() {
+    func updateTimings(completed: @escaping (_ downloadComplete: Bool) -> Void) {
         
         print("updating!")
-        
         var json: JSON!
         
-        do {
+        DispatchQueue.global().async {
             
-            guard let busURLString = busUrl, let stopId = stopNumber else { return }
-            
-            let urlString = busURLString + stopId
-            guard let url = URL(string: urlString) else { return }
-            let data = try Data(contentsOf: url)
-            json = JSON(data: data)
-            
-        } catch _ {
-            print("Couldn't update bus timings!")
-        }
-        
-        let busesDictionary = json["services"].arrayValue
-        for bus in busesDictionary {
-            
-            let busNo = bus["no"].stringValue
-            
-            if busNo == busNumber {
+            do {
                 
-                let durationMs = bus["next"]["duration_ms"].doubleValue
-                let subsequentMs = bus["subsequent"]["duration_ms"].doubleValue
+                guard let busURLString = self.busUrl, let stopId = self.stopNumber else { return }
                 
-                nextBusTiming = msToMinute(ms: durationMs)
-                subsequentBusTiming = msToMinute(ms: subsequentMs)
+                let urlString = busURLString + stopId
+                guard let url = URL(string: urlString) else { return }
+                let data = try Data(contentsOf: url)
+                json = JSON(data: data)
                 
-                print("updated!")
+            } catch _ {
+                print("Couldn't update bus timings!")
+            }
+            
+            let busesDictionary = json["services"].arrayValue
+            for bus in busesDictionary {
+                
+                let busNo = bus["no"].stringValue
+                
+                if busNo == self.busNumber {
+                    
+                    let durationMs = bus["next"]["duration_ms"].doubleValue
+                    let subsequentMs = bus["subsequent"]["duration_ms"].doubleValue
+                    
+                    self.nextBusTiming = self.msToMinute(ms: durationMs)
+                    self.subsequentBusTiming = self.msToMinute(ms: subsequentMs)
+                    
+                    completed(true)
+                }
             }
         }
     }

@@ -13,7 +13,7 @@ class BusStopFlexibleHeaderContainerViewController: MDCFlexibleHeaderContainerVi
     
     init() {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
         
         let collectionVC = BusStopCollectionViewController(collectionViewLayout: layout)
         super.init(contentViewController: collectionVC)
