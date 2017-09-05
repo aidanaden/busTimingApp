@@ -49,6 +49,21 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MotionAnimator.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MotionInterchange.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MotionTransitioning.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-BusTimingApp.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -62,57 +77,72 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0E297E8A5FD082105DDA84B010250D6C</key>
+		<key>0C7F26563F3F191CAA74C701181D7475</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1A86D5D33C5014AC3D870CF5B40C22BA</key>
+		<key>1598CCA636D7A6137163B838C8445870</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2AEE67C7823DCA69A77F6843A83FEAD8</key>
+		<key>1D3941D4AB293FF92FD9334762BFFFA9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3156545DE48F4C3EDDE13BD3EFC1B913</key>
+		<key>3408B94582D9FA04D7ECD21B57C5CE1C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>499EB0AA8F143F91B2B6B640D3DA619E</key>
+		<key>3974C5ADFEF85599403A6ACB9733B9AF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6A8987B543E59FCEFEDB0F042297EBA3</key>
+		<key>3C05DF4FCA4C0F2C7505F0514B0CEC5A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>96EAFC23026DEA000A8D82A0236C7B48</key>
+		<key>72552F5E1DDC7D95F23C69DAF251EE3E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9B19AB0D984CBB191280B61728E297D1</key>
+		<key>7E977B4410BB241A3589FB90237FA247</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D8EB027D47BF901B87A3D0E86CCE5F6B</key>
+		<key>81AD69C2C731FED3C32168FF0AA7062F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F9EA5BAA951F1C75756C0E04BAA1FFC9</key>
+		<key>89D45C16F771AE7595CA96220D7C4FD0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FC4FA5BCD7622D6553F8F6E5B7FA7742</key>
+		<key>9D657C5C1BD659938EF032B52B82B436</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D6432232CED9520BE7AF6F14D405CFE2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D89F11C5EB3B23F28C5D559BD85CD6F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FFE4A1B2AE5A1407C1D0649A4F61673F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

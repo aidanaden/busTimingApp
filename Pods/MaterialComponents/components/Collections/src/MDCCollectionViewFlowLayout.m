@@ -217,12 +217,15 @@ static const NSInteger kSupplementaryViewZIndex = 99;
       sectionFrame = CGRectUnion(sectionFrame, attribute.frame);
     }
   }
-  decorationAttr.frame = sectionFrame;
+  if (!CGRectIsNull(sectionFrame)) {
+    decorationAttr.frame = sectionFrame;
+  }
+
   decorationAttr.zIndex = -1;
   return decorationAttr;
 }
 
-- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset {
+- (CGPoint)targetContentOffsetForProposedContentOffset:(__unused CGPoint)proposedContentOffset {
   // Return current contentOffset to prevent any layout animations from jumping to new offset.
   return [super targetContentOffsetForProposedContentOffset:self.collectionView.contentOffset];
 }
@@ -374,7 +377,7 @@ static const NSInteger kSupplementaryViewZIndex = 99;
   attr.separatorColor = self.styler.separatorColor;
   attr.separatorInset = self.styler.separatorInset;
   attr.separatorLineHeight = self.styler.separatorLineHeight;
-  attr.shouldHideSeparators = self.styler.shouldHideSeparators;
+  attr.shouldHideSeparators = [self.styler shouldHideSeparatorForCellLayoutAttributes:attr];
 
   // Set inlay and hidden state if necessary.
   [self inlayAttributeIfNecessary:attr];
@@ -398,9 +401,9 @@ static const NSInteger kSupplementaryViewZIndex = 99;
             respondsToSelector:@selector(collectionView:layout:insetForSectionAtIndex:)]) {
       id<UICollectionViewDelegateFlowLayout> flowLayoutDelegate =
           (id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate;
-        insets = [flowLayoutDelegate collectionView:self.collectionView
-                                             layout:self.collectionView.collectionViewLayout
-                             insetForSectionAtIndex:attr.indexPath.section];
+      insets = [flowLayoutDelegate collectionView:self.collectionView
+                                           layout:self.collectionView.collectionViewLayout
+                           insetForSectionAtIndex:attr.indexPath.section];
     } else {
       insets = [self insetsAtSectionIndex:attr.indexPath.section];
     }
@@ -698,7 +701,7 @@ static const NSInteger kSupplementaryViewZIndex = 99;
   }
 }
 
-- (BOOL)shouldShowGridBackgroundWithAttribute:(MDCCollectionViewLayoutAttributes *)attr {
+- (BOOL)shouldShowGridBackgroundWithAttribute:(__unused MDCCollectionViewLayoutAttributes *)attr {
   // Determine whether to show grid background.
   if (self.styler.cellLayoutType == MDCCollectionViewCellLayoutTypeGrid) {
     if (self.styler.cellStyle == MDCCollectionViewCellStyleGrouped ||
@@ -752,7 +755,7 @@ static const NSInteger kSupplementaryViewZIndex = 99;
     NSMutableArray<__kindof UICollectionViewLayoutAttributes *> *sortedAttributes =
         [NSMutableArray array];
     [sortedByIndexPath enumerateObjectsUsingBlock:^(MDCCollectionViewLayoutAttributes *attr,
-                                                    NSUInteger idx, BOOL *stop) {
+                                                    __unused NSUInteger idx, __unused BOOL *stop) {
       if (sortedAttributes.count > 0) {
         // Check if current attribute is a header and previous attribute is an item. If so,
         // insert the current header attribute before the cell.
@@ -778,7 +781,7 @@ static const NSInteger kSupplementaryViewZIndex = 99;
 
     // Now assign delays and add padding to frame Y coordinate which gets removed during animation.
     [sortedAttributes enumerateObjectsUsingBlock:^(MDCCollectionViewLayoutAttributes *attr,
-                                                   NSUInteger idx, BOOL *stop) {
+                                                   NSUInteger idx, __unused BOOL *stop) {
       // If the element is an info bar header, then don't do anything.
       attr.willAnimateCellsOnAppearance = self.styler.willAnimateCellsOnAppearance;
       attr.animateCellsOnAppearanceDuration = self.styler.animateCellsOnAppearanceDuration;

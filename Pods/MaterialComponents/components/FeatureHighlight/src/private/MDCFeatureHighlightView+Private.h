@@ -33,7 +33,7 @@ typedef void (^MDCFeatureHighlightInteractionBlock)(BOOL accepted);
 
 @end
 
-@interface MDCFeatureHighlightView (Private)
+@interface MDCFeatureHighlightView (Private) <UIGestureRecognizerDelegate>
 
 - (void)layoutAppearing;
 - (void)layoutDisappearing;
@@ -43,5 +43,7 @@ typedef void (^MDCFeatureHighlightInteractionBlock)(BOOL accepted);
 - (void)animateAccepted:(NSTimeInterval)duration;
 - (void)animateRejected:(NSTimeInterval)duration;
 - (void)animatePulse;
+
+- (void)updateFontsForDynamicType;
 
 @end

@@ -17,7 +17,7 @@ class BusCell: UICollectionViewCell {
         let lbl = UILabel()
         lbl.numberOfLines = 1
         lbl.lineBreakMode = .byCharWrapping
-        lbl.font = UIFont.systemFont(ofSize: 42)
+        lbl.font = UIFont.systemFont(ofSize: 44)
         return lbl
     }()
     
@@ -25,8 +25,9 @@ class BusCell: UICollectionViewCell {
         let btn = UIButton()
         btn.backgroundColor = .black
         btn.addTarget(self, action: #selector(updateBusTimings), for: .touchUpInside)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 28)
-        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 25)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+        btn.titleLabel?.textAlignment = .left
+        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 27)
         btn.layer.cornerRadius = 12
         btn.clipsToBounds = true
         return btn
@@ -65,9 +66,9 @@ class BusCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: 24, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 75, heightConstant: 75)
+        _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: 24, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 125, heightConstant: 75)
         
-        _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: 26, leftConstant: 0, bottomConstant: 0, rightConstant: -10, widthConstant: 100, heightConstant: 75)
+        _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: 26, leftConstant: 0, bottomConstant: 0, rightConstant: -13, widthConstant: 100, heightConstant: 70)
         
         _ = subsequentLbl.anchor(nil, left: nil, bottom: nextBusButton.bottomAnchor, right: nextBusButton.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 8, rightConstant: 20, widthConstant: 20, heightConstant: 20)
         

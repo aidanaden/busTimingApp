@@ -29,12 +29,22 @@ const CGFloat MDCCellDefaultTwoLineHeight = 72.0f;
 const CGFloat MDCCellDefaultThreeLineHeight = 88.0f;
 
 // Default cell fonts.
-#define kCellDefaultTextFont [MDCTypography subheadFont]
-#define kCellDefaultDetailTextFont [MDCTypography body1Font]
+static inline UIFont *CellDefaultTextFont(void) {
+  return [MDCTypography subheadFont];
+}
+
+static inline UIFont *CellDefaultDetailTextFont(void) {
+  return [MDCTypography body1Font];
+}
 
 // Default cell font opacity.
-#define kCellDefaultTextOpacity [MDCTypography subheadFontOpacity]
-#define kCellDefaultDetailTextFontOpacity [MDCTypography captionFontOpacity]
+static inline CGFloat CellDefaultTextOpacity(void) {
+  return [MDCTypography subheadFontOpacity];
+}
+
+static inline CGFloat CellDefaultDetailTextFontOpacity(void) {
+  return [MDCTypography captionFontOpacity];
+}
 
 // Cell padding top/bottom.
 static const CGFloat kCellTwoLinePaddingTop = 20;
@@ -91,16 +101,16 @@ static inline CGRect AlignRectToUpperPixel(CGRect rect) {
 }
 
 - (void)resetMDCCollectionViewTextCellLabelProperties {
-  _textLabel.font = kCellDefaultTextFont;
-  _textLabel.textColor = [UIColor colorWithWhite:0 alpha:kCellDefaultTextOpacity];
+  _textLabel.font = CellDefaultTextFont();
+  _textLabel.textColor = [UIColor colorWithWhite:0 alpha:CellDefaultTextOpacity()];
   _textLabel.shadowColor = nil;
   _textLabel.shadowOffset = CGSizeZero;
   _textLabel.textAlignment = NSTextAlignmentNatural;
   _textLabel.lineBreakMode = NSLineBreakByTruncatingTail;
   _textLabel.numberOfLines = 1;
 
-  _detailTextLabel.font = kCellDefaultDetailTextFont;
-  _detailTextLabel.textColor = [UIColor colorWithWhite:0 alpha:kCellDefaultDetailTextFontOpacity];
+  _detailTextLabel.font = CellDefaultDetailTextFont();
+  _detailTextLabel.textColor = [UIColor colorWithWhite:0 alpha:CellDefaultDetailTextFontOpacity()];
   _detailTextLabel.shadowColor = nil;
   _detailTextLabel.shadowOffset = CGSizeZero;
   _detailTextLabel.textAlignment = NSTextAlignmentNatural;
@@ -177,23 +187,27 @@ static inline CGRect AlignRectToUpperPixel(CGRect rect) {
   imageFrame.origin.y =
       (CGRectGetHeight(self.contentView.frame) / 2) - (imageFrame.size.height / 2);
 
-  // Text layout.
+  // Text layout and line count
   CGRect textFrame = CGRectZero;
   textFrame.size = [self frameSizeForLabel:_textLabel];
+  NSInteger textLines = (NSInteger)floor(textFrame.size.height / _textLabel.font.lineHeight);
   CGRect detailFrame = CGRectZero;
   detailFrame.size = [self frameSizeForLabel:_detailTextLabel];
+  NSInteger detailsLines =
+      (NSInteger)floor(detailFrame.size.height / _detailTextLabel.font.lineHeight);
+  NSInteger numberOfAllVisibleTextLines = textLines + detailsLines;
 
   // Adjust the labels X origin.
   textFrame.origin.x = 0;
   detailFrame.origin.x = 0;
 
   // Adjust the labels Y origin.
-  if ([self numberOfAllVisibleTextLines] == 1) {
+  if (numberOfAllVisibleTextLines == 1) {
     // Alignment for single line.
     textFrame.origin.y = (boundsHeight / 2) - (textFrame.size.height / 2);
     detailFrame.origin.y = (boundsHeight / 2) - (detailFrame.size.height / 2);
 
-  } else if ([self numberOfAllVisibleTextLines] == 2) {
+  } else if (numberOfAllVisibleTextLines == 2) {
     if (!CGRectIsEmpty(textFrame) && !CGRectIsEmpty(detailFrame)) {
       // Alignment for two lines.
       textFrame.origin.y =
@@ -206,7 +220,7 @@ static inline CGRect AlignRectToUpperPixel(CGRect rect) {
       detailFrame.origin.y = (boundsHeight / 2) - (detailFrame.size.height / 2);
     }
 
-  } else if ([self numberOfAllVisibleTextLines] == 3) {
+  } else if (numberOfAllVisibleTextLines == 3) {
     if (!CGRectIsEmpty(textFrame) && !CGRectIsEmpty(detailFrame)) {
       // Alignment for three lines.
       textFrame.origin.y =
@@ -231,18 +245,8 @@ static inline CGRect AlignRectToUpperPixel(CGRect rect) {
                                           self.mdc_effectiveUserInterfaceLayoutDirection);
 }
 
-- (NSInteger)numberOfAllVisibleTextLines {
-  return [self numberOfLinesForLabel:_textLabel] + [self numberOfLinesForLabel:_detailTextLabel];
-}
-
-- (NSInteger)numberOfLinesForLabel:(UILabel *)label {
-  CGSize size = [self frameSizeForLabel:label];
-  return (NSInteger)floor(size.height / label.font.lineHeight);
-}
-
 - (CGSize)frameSizeForLabel:(UILabel *)label {
-  CGFloat width = MIN(CGRectGetWidth(_contentWrapper.bounds),
-                      [label.text sizeWithAttributes:@{NSFontAttributeName : label.font}].width);
+  CGFloat width = CGRectGetWidth(_contentWrapper.bounds);
   CGFloat height =
       [label textRectForBounds:_contentWrapper.bounds limitedToNumberOfLines:label.numberOfLines]
           .size.height;

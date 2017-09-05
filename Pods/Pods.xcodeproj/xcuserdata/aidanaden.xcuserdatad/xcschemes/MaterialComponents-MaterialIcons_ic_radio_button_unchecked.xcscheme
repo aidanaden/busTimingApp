@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'FC4FA5BCD7622D6553F8F6E5B7FA7742'
+               BlueprintIdentifier = '7E977B4410BB241A3589FB90237FA247'
                BlueprintName = 'MaterialComponents-MaterialIcons_ic_radio_button_unchecked'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'MaterialIcons_ic_radio_button_unchecked.bundle'>

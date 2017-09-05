@@ -84,6 +84,7 @@ class BusStopData: NSObject {
     
     var stopId: String? {
         didSet {
+            busesData.removeAll()
             if let stopID = stopId {
                 readJSON(BusID: stopID)
             }
