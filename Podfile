@@ -8,5 +8,6 @@ target 'BusTimingApp' do
   # Pods for BusTimingApp
   pod 'MaterialComponents'
   pod 'SwiftyJSON'
+  pod 'Material'
 
 end

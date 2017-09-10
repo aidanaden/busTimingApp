@@ -8,30 +8,30 @@
 
 import UIKit
 import MaterialComponents
+import CoreData
 
 
-class BookmarksCollectionViewController: UICollectionViewController {
+class BookmarksCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var headerViewController: MDCFlexibleHeaderViewController!
     let headerContentView = BookmarkHeaderContentView()
-    let busStopData = BusStopData()
+    var busArray = [BusData]()
     
     private let busCellId = "BusCellId"
     
-    //    var stopNumber: String? {
-    //        didSet {
-    //            self.busStopData.readJSON(BusID: stopNumber!)
-    //        }
-    //    }
-    var stopID = ""
+    override func viewDidAppear(_ animated: Bool) {
+        loadData()
+        collectionView?.reloadData()
+    }
+    
     
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
-        // set collection view controller background: self.collectionView.backgroundColor =
-        // register custom bus cells
+        
+        loadData()
         
         collectionView?.register(BusCell.self, forCellWithReuseIdentifier: busCellId)
-        collectionView?.backgroundColor = UIColor(white: 0.97, alpha: 1)
+        collectionView?.backgroundColor = .white
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,16 +43,27 @@ class BookmarksCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return busStopData.busesData.count
+        return busArray.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let busData = busStopData.busesData[indexPath.item]
+        let busData = busArray[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: busCellId, for: indexPath) as! BusCell
-        cell.populateCell(busData: busData)
+        
+        if let busNumber = busData.busNumber, let nextBus = busData.nextBusTiming, let subBus = busData.subsequentBusTiming, let busURL = busData.busUrl, let stopNum = busData.stopNumber {
+            
+            cell.populateCell(busNumber: busNumber, nextBus: nextBus, subBus: subBus, busURL: busURL, stopNum: stopNum)
+        }
         
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let busData = busArray[indexPath.item]
+        clearData(busData: busData)
+        reloadAll()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -74,7 +85,7 @@ class BookmarksCollectionViewController: UICollectionViewController {
         let bounds = UIScreen.main.bounds
         
         if bounds.size.width < bounds.size.height {
-            headerView.maximumHeight = 200
+            headerView.maximumHeight = 180
         } else {
             headerView.maximumHeight = 72
         }
@@ -91,7 +102,7 @@ class BookmarksCollectionViewController: UICollectionViewController {
         
         let headerView = headerViewController.headerView
         headerView.trackingScrollView = collectionView
-        headerView.maximumHeight = 200
+        headerView.maximumHeight = 180
         headerView.minimumHeight = 72
         headerView.backgroundColor = .white
         headerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

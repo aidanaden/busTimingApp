@@ -1,4 +1,4 @@
-//
+ //
 //  ViewController.swift
 //  BusTimingApp
 //
@@ -8,30 +8,49 @@
 
 import UIKit
 import MaterialComponents
+import CoreData
+import SwiftyJSON
+import Material
 
 class BusStopCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
     
     var headerViewController: MDCFlexibleHeaderViewController!
     let headerContentView = BusStopHeaderContentView(frame: CGRect.zero)
-    let busStopData = BusStopData()
+    var busStopData = TempBusStopData()
+    var busArray = [TempBusData]()
     
     private let busCellId = "BusCellId"
+    let itachBusUrl = "http://api.itachi1706.com/api/busarrival.php?BusStopID="
     
-//    var stopNumber: String? {
-//        didSet {
-//            self.busStopData.readJSON(BusID: stopNumber!)
-//        }
-//    }
-    
+    func convertDateFormater(date: String) -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        
+        if let date = dateFormatter.date(from: date) {
+            
+            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
+            dateFormatter.timeZone = TimeZone(identifier: "SGT")
+            let timeDifference = Int(date.timeIntervalSince(Date())/60)
+            
+            if timeDifference <= 0 {
+                return "Arr"
+            }
+            
+            return "\(timeDifference)"
+        }
+        
+        return  ""
+    }
+
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
-        // set collection view controller background: self.collectionView.backgroundColor = 
-        // register custom bus cells
         
         hideKeyboard()
         setupSearchBar()
         collectionView?.register(BusCell.self, forCellWithReuseIdentifier: busCellId)
-        collectionView?.backgroundColor = UIColor(white: 0.97, alpha: 1)
+        collectionView?.backgroundColor = .white
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,14 +62,18 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return busStopData.busesData.count
+        return busArray.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let busData = busStopData.busesData[indexPath.item]
+        let busData = busArray[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: busCellId, for: indexPath) as! BusCell
-        cell.populateCell(busData: busData)
+        
+        if let busNumber = busData.busNumber, let nextBus = busData.nextBusTiming, let subBus = busData.subsequentBusTiming, let busURL = busData.busUrl, let stopNum = busData.stopNumber {
+            
+            cell.populateCell(busNumber: busNumber, nextBus: nextBus, subBus: subBus, busURL: busURL, stopNum: stopNum)
+        }
         
         return cell
     }
@@ -63,40 +86,38 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         return CGSize(width: cellWidth, height: cellHeight)
     }
     
+    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         headerViewController.scrollViewDidScroll(scrollView)
         
         // animate changes of nav bar when scrolling down certain level
         
         let contentOffsetY = scrollView.contentOffset.y
-        var opacity: CGFloat = 1
-        var logoOpacity: CGFloat = 0
-        var bigLogoOpacity: CGFloat = 1
-        let duration = 0.25
+//        var opacity: CGFloat = 1
+//        let logoOpacity: CGFloat = 1
+//        var bigLogoOpacity: CGFloat = 1
+        let duration = Double(0)
+        var sbarHeight: CGFloat = 0
         
-        print(contentOffsetY)
         
-        if contentOffsetY > -168 {
+        if contentOffsetY >= -215 && contentOffsetY < -173 {
             
-            bigLogoOpacity = 0
+            sbarHeight = CGFloat(abs(contentOffsetY + 173))
         }
         
-        if contentOffsetY > -140 {
-            
-            opacity = 0
-            bigLogoOpacity = 0
-        }
-        
-        if headerViewController.headerView.frame.height == 72 {
-            logoOpacity = 1
+        if contentOffsetY < -215 {
+            sbarHeight = 42
         }
         
         UIView.animate(withDuration: duration, animations: {
             
-            self.headerContentView.searchBar.alpha = opacity
-            self.headerContentView.logoImage.alpha = logoOpacity
-            self.headerContentView.bigLogoImage.alpha = bigLogoOpacity
+            print(sbarHeight)
+            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+            self.headerContentView.searchBar.layoutIfNeeded()
+            self.headerContentView.searchBar.layoutSubviews()
         })
+        
+      
     }
     
     func sizeHeaderView() {
@@ -104,11 +125,11 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         let bounds = UIScreen.main.bounds
         
         if bounds.size.width < bounds.size.height {
-            headerView.maximumHeight = 180
+            headerView.maximumHeight = 215
         } else {
-            headerView.maximumHeight = 72
+            headerView.maximumHeight = 75
         }
-        headerView.minimumHeight = 72
+        headerView.minimumHeight = 75
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,12 +138,21 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         collectionView?.collectionViewLayout.invalidateLayout()
     }
     
+    
     func setupHeaderView() {
         
         let headerView = headerViewController.headerView
         headerView.trackingScrollView = collectionView
-        headerView.maximumHeight = 180
-        headerView.minimumHeight = 72
+        
+//        let shadowLayer = CALayer()
+//        shadowLayer.shadowRadius = 0
+//        shadowLayer.shadowOffset = CGSize(width: 0, height: 1)
+//        shadowLayer.shadowColor = UIColor.darkGray.cgColor
+//        shadowLayer.shadowOpacity = 1
+//        headerView.shadowLayer = shadowLayer
+        
+        headerView.maximumHeight = 215
+        headerView.minimumHeight = 75
         headerView.backgroundColor = .white
         headerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
@@ -133,15 +163,18 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
     
     func setupSearchBar() {
         headerContentView.searchBar.delegate = self
-        headerContentView.searchBar.placeholder = "Bus Stop Id"
-        headerContentView.searchBar.searchBarStyle = .minimal
+        headerContentView.layoutIfNeeded()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text {
-            self.busStopData.stopId = text
-            collectionView?.reloadData()
-            dismissKeyboard()
+            
+            if text.characters.count == 5 {
+                self.busStopData.stopId = text
+                setupStopData()
+                collectionView?.reloadData()
+                dismissKeyboard()
+            }
         }
     }
     

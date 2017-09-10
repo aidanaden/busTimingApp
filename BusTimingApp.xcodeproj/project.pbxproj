@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		301841DD1F6281910065C0BD /* BookmarksCollectionVC+DATA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301841DC1F6281910065C0BD /* BookmarksCollectionVC+DATA.swift */; };
+		301841DF1F6282FA0065C0BD /* BusInkOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301841DE1F6282FA0065C0BD /* BusInkOverlay.swift */; };
 		309633CB1F5EDF7C004E9E13 /* BookmarkHeaderContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309633CA1F5EDF7C004E9E13 /* BookmarkHeaderContentView.swift */; };
 		309633DB1F5EE514004E9E13 /* Odin Rounded in Resources */ = {isa = PBXBuildFile; fileRef = 309633DA1F5EE514004E9E13 /* Odin Rounded */; };
+		309633FF1F6030EC004E9E13 /* BusAppTiming.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 309633FD1F6030EC004E9E13 /* BusAppTiming.xcdatamodeld */; };
+		309634011F604126004E9E13 /* BusStopCollectionVC+DATA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309634001F604126004E9E13 /* BusStopCollectionVC+DATA.swift */; };
 		30C4CD001F56CDB5001F467E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C4CCFF1F56CDB5001F467E /* AppDelegate.swift */; };
 		30C4CD021F56CDB5001F467E /* BusStopCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C4CD011F56CDB5001F467E /* BusStopCollectionViewController.swift */; };
 		30C4CD071F56CDB6001F467E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30C4CD061F56CDB6001F467E /* Assets.xcassets */; };
@@ -27,9 +31,13 @@
 /* Begin PBXFileReference section */
 		1E09C8581454F4359BD0EAE6 /* Pods_BusTimingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BusTimingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AD0AFD3789422A593410CAB /* Pods-BusTimingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusTimingApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BusTimingApp/Pods-BusTimingApp.release.xcconfig"; sourceTree = "<group>"; };
+		301841DC1F6281910065C0BD /* BookmarksCollectionVC+DATA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookmarksCollectionVC+DATA.swift"; sourceTree = "<group>"; };
+		301841DE1F6282FA0065C0BD /* BusInkOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusInkOverlay.swift; sourceTree = "<group>"; };
 		305F7D52DB54033A680A32C6 /* Pods-BusTimingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusTimingApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BusTimingApp/Pods-BusTimingApp.debug.xcconfig"; sourceTree = "<group>"; };
 		309633CA1F5EDF7C004E9E13 /* BookmarkHeaderContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkHeaderContentView.swift; sourceTree = "<group>"; };
 		309633DA1F5EE514004E9E13 /* Odin Rounded */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Odin Rounded"; sourceTree = "<group>"; };
+		309633FE1F6030EC004E9E13 /* BusAppTiming.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BusAppTiming.xcdatamodel; sourceTree = "<group>"; };
+		309634001F604126004E9E13 /* BusStopCollectionVC+DATA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BusStopCollectionVC+DATA.swift"; sourceTree = "<group>"; };
 		30C4CCFC1F56CDB5001F467E /* BusTimingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BusTimingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30C4CCFF1F56CDB5001F467E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30C4CD011F56CDB5001F467E /* BusStopCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStopCollectionViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +74,39 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		301842021F65538B0065C0BD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				30C4CD011F56CDB5001F467E /* BusStopCollectionViewController.swift */,
+				30C4CD1F1F596818001F467E /* BookmarksCollectionViewController.swift */,
+				30C4CD111F56CF68001F467E /* BusStopFlexibleHeaderContainerViewController.swift */,
+				30C4CD211F5968D7001F467E /* BookmarksFlexibleHeaderContainerViewController.swift */,
+				30C4CD1B1F5940B8001F467E /* BusTabBarController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		301842031F6553930065C0BD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				30C4CD191F56E980001F467E /* BusCell.swift */,
+				301841DE1F6282FA0065C0BD /* BusInkOverlay.swift */,
+				30C4CD131F56D0C3001F467E /* BusStopHeaderContentView.swift */,
+				309633CA1F5EDF7C004E9E13 /* BookmarkHeaderContentView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		301842041F6553980065C0BD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				309634001F604126004E9E13 /* BusStopCollectionVC+DATA.swift */,
+				301841DC1F6281910065C0BD /* BookmarksCollectionVC+DATA.swift */,
+				30C4CD171F56D1DE001F467E /* BusStopData.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		3025B2B3BB9110108C19C501 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +119,7 @@
 		30C4CCF31F56CDB5001F467E = {
 			isa = PBXGroup;
 			children = (
+				309633FD1F6030EC004E9E13 /* BusAppTiming.xcdatamodeld */,
 				309633DA1F5EE514004E9E13 /* Odin Rounded */,
 				30C4CCFE1F56CDB5001F467E /* BusTimingApp */,
 				3025B2B3BB9110108C19C501 /* Pods */,
@@ -98,15 +140,9 @@
 			isa = PBXGroup;
 			children = (
 				30C4CD151F56D1C3001F467E /* Extensions.swift */,
-				30C4CD011F56CDB5001F467E /* BusStopCollectionViewController.swift */,
-				30C4CD1F1F596818001F467E /* BookmarksCollectionViewController.swift */,
-				30C4CD191F56E980001F467E /* BusCell.swift */,
-				30C4CD171F56D1DE001F467E /* BusStopData.swift */,
-				30C4CD131F56D0C3001F467E /* BusStopHeaderContentView.swift */,
-				309633CA1F5EDF7C004E9E13 /* BookmarkHeaderContentView.swift */,
-				30C4CD111F56CF68001F467E /* BusStopFlexibleHeaderContainerViewController.swift */,
-				30C4CD211F5968D7001F467E /* BookmarksFlexibleHeaderContainerViewController.swift */,
-				30C4CD1B1F5940B8001F467E /* BusTabBarController.swift */,
+				301842041F6553980065C0BD /* Model */,
+				301842031F6553930065C0BD /* Views */,
+				301842021F65538B0065C0BD /* Controllers */,
 				30C4CCFF1F56CDB5001F467E /* AppDelegate.swift */,
 				30C4CD061F56CDB6001F467E /* Assets.xcassets */,
 				30C4CD081F56CDB6001F467E /* LaunchScreen.storyboard */,
@@ -239,14 +275,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				309633FF1F6030EC004E9E13 /* BusAppTiming.xcdatamodeld in Sources */,
 				30C4CD201F596818001F467E /* BookmarksCollectionViewController.swift in Sources */,
 				30C4CD181F56D1DE001F467E /* BusStopData.swift in Sources */,
 				30C4CD221F5968D7001F467E /* BookmarksFlexibleHeaderContainerViewController.swift in Sources */,
 				30C4CD161F56D1C3001F467E /* Extensions.swift in Sources */,
 				30C4CD141F56D0C3001F467E /* BusStopHeaderContentView.swift in Sources */,
 				30C4CD021F56CDB5001F467E /* BusStopCollectionViewController.swift in Sources */,
+				301841DF1F6282FA0065C0BD /* BusInkOverlay.swift in Sources */,
 				30C4CD001F56CDB5001F467E /* AppDelegate.swift in Sources */,
+				301841DD1F6281910065C0BD /* BookmarksCollectionVC+DATA.swift in Sources */,
 				30C4CD1A1F56E980001F467E /* BusCell.swift in Sources */,
+				309634011F604126004E9E13 /* BusStopCollectionVC+DATA.swift in Sources */,
 				30C4CD1C1F5940B8001F467E /* BusTabBarController.swift in Sources */,
 				309633CB1F5EDF7C004E9E13 /* BookmarkHeaderContentView.swift in Sources */,
 				30C4CD121F56CF68001F467E /* BusStopFlexibleHeaderContainerViewController.swift in Sources */,
@@ -410,6 +450,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		309633FD1F6030EC004E9E13 /* BusAppTiming.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				309633FE1F6030EC004E9E13 /* BusAppTiming.xcdatamodel */,
+			);
+			currentVersion = 309633FE1F6030EC004E9E13 /* BusAppTiming.xcdatamodel */;
+			path = BusAppTiming.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 30C4CCF41F56CDB5001F467E /* Project object */;
 }

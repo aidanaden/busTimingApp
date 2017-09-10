@@ -1,19 +1,18 @@
+////
+////  BusStopData.swift
+////  BusTimingApp
+////
+////  Created by Aidan Aden on 30/8/17.
+////  Copyright © 2017 Aidan Aden. All rights reserved.
+////
 //
-//  BusStopData.swift
-//  BusTimingApp
-//
-//  Created by Aidan Aden on 30/8/17.
-//  Copyright © 2017 Aidan Aden. All rights reserved.
-//
-
 import UIKit
 import SwiftyJSON
 
-class BusData: NSObject {
+class TempBusData: NSObject {
     
     var stopNumber: String?
     var busUrl: String?
-    var stopId: String?
     var busNumber: String?
     var nextBusTiming: String?
     var subsequentBusTiming: String?
@@ -74,71 +73,64 @@ class BusData: NSObject {
     }
 }
 
-class BusStopData: NSObject {
+class TempBusStopData: NSObject {
     
     
 //    private var busURL = "https://arrivelah.herokuapp.com/?id="
     private var itachBusUrl = "http://api.itachi1706.com/api/busarrival.php?BusStopID="
     
-    var busesData = [BusData]()
+//    var busesData = [TempBusData]()
     
-    var stopId: String? {
-        didSet {
-            busesData.removeAll()
-            if let stopID = stopId {
-                readJSON(BusID: stopID)
-            }
-        }
-    }
+    var stopId: String?
     
-    func readJSON(BusID: String) {
-        
-        var json: JSON!
-        
-        do {
-            let urlString = itachBusUrl + BusID
-            guard let url = URL(string: urlString) else { return }
-            let data = try Data(contentsOf: url)
-            json = JSON(data: data)
-        } catch _ {
-            print("Couldn't download bus data")
-        }
-        
-        let busesDictionary = json["Services"].arrayValue
-        for bus in busesDictionary {
-            let busData = BusData()
-            let nextBusDate = bus["NextBus"]["EstimatedArrival"].stringValue
-            let subsequentBusDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
-            
-            busData.stopNumber = BusID
-            busData.busUrl = itachBusUrl
-            busData.busNumber = bus["ServiceNo"].stringValue
-            busData.nextBusTiming = convertDateFormater(date: nextBusDate)
-            busData.subsequentBusTiming = convertDateFormater(date: subsequentBusDate)
-            busesData.append(busData)
-        }
-    }
-    
-    func convertDateFormater(date: String) -> String {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        dateFormatter.timeZone = TimeZone(identifier: "GMT")
-        
-        if let date = dateFormatter.date(from: date) {
-            
-            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
-            dateFormatter.timeZone = TimeZone(identifier: "SGT")
-            let timeDifference = Int(date.timeIntervalSince(Date())/60)
-            
-            if timeDifference <= 0 {
-                return "Arr"
-            }
-            
-            print(timeDifference)
-            return "\(timeDifference)"
-        }
-        
-        return  ""
-    }
+//    func readJSON(BusID: String) {
+//        
+//        var json: JSON!
+//        
+//        do {
+//            let urlString = itachBusUrl + BusID
+//            guard let url = URL(string: urlString) else { return }
+//            let data = try Data(contentsOf: url)
+//            json = JSON(data: data)
+//        } catch _ {
+//            print("Couldn't download bus data")
+//        }
+//        
+//        let busesDictionary = json["Services"].arrayValue
+//        for bus in busesDictionary {
+//            let busData = TempBusData()
+//            let nextBusDate = bus["NextBus"]["EstimatedArrival"].stringValue
+//            let subsequentBusDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
+//            
+//            busData.stopNumber = BusID
+//            busData.busUrl = itachBusUrl
+//            busData.busNumber = bus["ServiceNo"].stringValue
+//            busData.nextBusTiming = convertDateFormater(date: nextBusDate)
+//            busData.subsequentBusTiming = convertDateFormater(date: subsequentBusDate)
+//            busesData.append(busData)
+//        }
+//    }
+//    
+//    func convertDateFormater(date: String) -> String {
+//        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+//        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+//        
+//        if let date = dateFormatter.date(from: date) {
+//            
+//            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
+//            dateFormatter.timeZone = TimeZone(identifier: "SGT")
+//            let timeDifference = Int(date.timeIntervalSince(Date())/60)
+//            
+//            if timeDifference <= 0 {
+//                return "Arr"
+//            }
+//            
+//            print(timeDifference)
+//            return "\(timeDifference)"
+//        }
+//        
+//        return  ""
+//    }
 }

@@ -1,4 +1,7 @@
 PODS:
+  - Material (2.9.4):
+    - Material/Core (= 2.9.4)
+  - Material/Core (2.9.4)
   - MaterialComponents (34.0.0):
     - MaterialComponents/ActivityIndicator (= 34.0.0)
     - MaterialComponents/AnimationTiming (= 34.0.0)
@@ -310,10 +313,12 @@ PODS:
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
+  - Material
   - MaterialComponents
   - SwiftyJSON
 
 SPEC CHECKSUMS:
+  Material: 06fa0a5f29c45c42608ae32f3be96f1c46558d13
   MaterialComponents: 849fa20d666170d27260aa3f6a48f01b2aceb728
   MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   MotionAnimator: 9d025cda7572737e5db5ca779eb28c767fe6cf45
@@ -321,6 +326,6 @@ SPEC CHECKSUMS:
   MotionTransitioning: 01e7fcd6e2974985057109e0a4c98ea546cd5947
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 26d747b44a380a0efa920e8190edd92c3c04e574
+PODFILE CHECKSUM: 05e77af5c5ffb26e1a8b254385ff4bbb7e576ca4
 
 COCOAPODS: 1.0.1

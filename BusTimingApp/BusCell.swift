@@ -9,7 +9,8 @@
 import UIKit
 import MaterialComponents
 import SwiftyJSON
-
+import CoreData
+import Material
 
 class BusCell: UICollectionViewCell {
     
@@ -18,6 +19,7 @@ class BusCell: UICollectionViewCell {
         lbl.numberOfLines = 1
         lbl.lineBreakMode = .byCharWrapping
         lbl.font = UIFont.systemFont(ofSize: 44)
+//        lbl.font = RobotoFont.regular(with: 44)
         return lbl
     }()
     
@@ -26,6 +28,7 @@ class BusCell: UICollectionViewCell {
         btn.backgroundColor = .black
         btn.addTarget(self, action: #selector(updateBusTimings), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+//        btn.titleLabel?.font = RobotoFont.regular(with: 32)
         btn.titleLabel?.textAlignment = .left
         btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 27)
         btn.layer.cornerRadius = 12
@@ -47,15 +50,22 @@ class BusCell: UICollectionViewCell {
         subLbl.numberOfLines = 1
         subLbl.lineBreakMode = .byCharWrapping
         subLbl.font = UIFont.systemFont(ofSize: 15)
+//        subLbl.font = RobotoFont.regular(with: 15)
         subLbl.textColor = .white
         subLbl.textAlignment = .right
         return subLbl
     }()
     
-    var busData: BusData?
+    var busURL: String?
+    var busNumber: String?
+    var stopNumber: String?
+    var nextBusTiming: String?
+    var subBusTiming: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        backgroundColor = .white
         
         addSubview(busNumberLbl)
         addSubview(nextBusButton)
@@ -66,27 +76,32 @@ class BusCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: 24, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 125, heightConstant: 75)
+        _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: frame.height/2 - 75/2, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 125, heightConstant: 75)
         
-        _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: 26, leftConstant: 0, bottomConstant: 0, rightConstant: -13, widthConstant: 100, heightConstant: 70)
+        _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: frame.height/2 - 70/2, leftConstant: 0, bottomConstant: 0, rightConstant: -13, widthConstant: 100, heightConstant: 70)
         
         _ = subsequentLbl.anchor(nil, left: nil, bottom: nextBusButton.bottomAnchor, right: nextBusButton.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 8, rightConstant: 20, widthConstant: 20, heightConstant: 20)
         
         
         busActivityIndicator.centerXAnchor.constraint(equalTo: nextBusButton.centerXAnchor, constant: -5).isActive = true
         busActivityIndicator.centerYAnchor.constraint(equalTo: nextBusButton.centerYAnchor).isActive = true
+        
+        
     }
     
-    func populateCell(busData: BusData) {
+    func populateCell(busNumber: String, nextBus: String, subBus: String, busURL: String, stopNum: String) {
         
-        self.busData = busData
-        busNumberLbl.text = busData.busNumber
+        self.busNumber = busNumber
+        self.nextBusTiming = nextBus
+        self.subBusTiming = subBus
+        self.busURL = busURL
+        self.stopNumber = stopNum
         
-        if let nextbustiming = busData.nextBusTiming, let subsequentbustiming = busData.subsequentBusTiming {
+        busNumberLbl.text = busNumber
             
-            nextBusButton.setTitle("\(nextbustiming)", for: .normal)
-            subsequentLbl.text = subsequentbustiming
-        }
+        nextBusButton.setTitle("\(nextBus)", for: .normal)
+        subsequentLbl.text = subBus
+        
     }
     
     func updateBusTimings() {
@@ -96,8 +111,9 @@ class BusCell: UICollectionViewCell {
         nextBusButton.setTitle("", for: .normal)
         subsequentLbl.text = ""
         
-        busData?.updateTimings(completed: { (completed) in
-            
+        guard let busUrl = busURL, let stopID = stopNumber, let busNO = busNumber else { return }
+        
+        updateTimings(busURLString: busUrl, stopId: stopID, busNumber: busNO) { (completed) in
             if completed {
                 
                 DispatchQueue.main.async {
@@ -105,18 +121,72 @@ class BusCell: UICollectionViewCell {
                     self.busActivityIndicator.stopAnimating()
                     self.busActivityIndicator.alpha = 0
                     
-                    if let nextbustiming = self.busData?.nextBusTiming, let subsequentbustiming = self.busData?.subsequentBusTiming {
+                    if let nextbustiming = self.nextBusTiming, let subsequentbustiming = self.subBusTiming {
                         self.nextBusButton.setTitle("\(nextbustiming)", for: .normal)
                         self.subsequentLbl.text = subsequentbustiming
                     }
                 }
                 
             }
-        })
+        }
     
-        
     }
     
+    func updateTimings(busURLString: String, stopId: String, busNumber: String, completed: @escaping (_ downloadComplete: Bool) -> Void) {
+        
+        var json: JSON!
+        
+        DispatchQueue.global().async {
+            
+            do {
+                
+                let urlString = busURLString + stopId + "&ServiceNo=" + busNumber
+                guard let url = URL(string: urlString) else { return }
+                let data = try Data(contentsOf: url)
+                json = JSON(data: data)
+                
+            } catch _ {
+                print("Couldn't update bus timings!")
+            }
+            
+            let busesDictionary = json["Services"].arrayValue
+            for bus in busesDictionary {
+                
+                let durationDate = bus["NextBus"]["EstimatedArrival"].stringValue
+                let subsequentDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
+                
+                self.nextBusTiming = self.convertDateFormater(date: durationDate)
+                self.subBusTiming = self.convertDateFormater(date: subsequentDate)
+                
+                completed(true)
+            }
+        }
+    }
+
+    
+    func convertDateFormater(date: String) -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        
+        if let date = dateFormatter.date(from: date) {
+            
+            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
+            dateFormatter.timeZone = TimeZone(identifier: "SGT")
+            let timeDifference = Int(date.timeIntervalSince(Date())/60)
+            
+            if timeDifference <= 0 {
+                return "Arr"
+            }
+            
+            return "\(timeDifference)"
+        }
+        
+        return  ""
+    }
+
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
