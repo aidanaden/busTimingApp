@@ -310,11 +310,13 @@ PODS:
     - MotionInterchange
   - MotionInterchange (1.0.1)
   - MotionTransitioning (3.2.1)
+  - SHSearchBar (1.1.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - Material
   - MaterialComponents
+  - SHSearchBar
   - SwiftyJSON
 
 SPEC CHECKSUMS:
@@ -324,8 +326,9 @@ SPEC CHECKSUMS:
   MotionAnimator: 9d025cda7572737e5db5ca779eb28c767fe6cf45
   MotionInterchange: 7a7c355ba2ed5d36c5cf2ceb76cacd3d3680dbf5
   MotionTransitioning: 01e7fcd6e2974985057109e0a4c98ea546cd5947
+  SHSearchBar: 1dbaf0999acfd9029fe1cb65bd2625e456ed0bf7
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 05e77af5c5ffb26e1a8b254385ff4bbb7e576ca4
+PODFILE CHECKSUM: 99ed12a8b191195fcbe57a24667a8d0cd6cd3fcd
 
 COCOAPODS: 1.0.1

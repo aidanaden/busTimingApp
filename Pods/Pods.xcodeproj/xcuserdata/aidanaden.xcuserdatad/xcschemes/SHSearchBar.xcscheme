@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '30AB01C6D48F1217D03AD7D43336B5A2'
-               BlueprintName = 'SwiftyJSON'
+               BlueprintIdentifier = 'E082C33C4B49D374A37F9EE828EAF808'
+               BlueprintName = 'SHSearchBar'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SwiftyJSON.framework'>
+               BuildableName = 'SHSearchBar.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

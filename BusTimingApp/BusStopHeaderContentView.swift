@@ -14,14 +14,36 @@ class BusStopHeaderContentView: UIView {
     
     var searchBar: UISearchBar = {
         let sbar = UISearchBar()
-
         sbar.placeholder = "Stop ID"
         sbar.tintColor = .lightGray
-        
-    
+        sbar.translatesAutoresizingMaskIntoConstraints = false
         sbar.backgroundImage = UIImage()
+        sbar.layer.cornerRadius = 12
+        sbar.masksToBounds = true
 
         return sbar
+    }()
+    
+    let busTitleLbl: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.boldSystemFont(ofSize: 42)
+        lbl.text = "Timings"
+        return lbl
+    }()
+    
+    let miniBusTitleLbl: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.boldSystemFont(ofSize: 20)
+        lbl.textColor = .black
+        lbl.text = "Timings"
+        lbl.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return lbl
+    }()
+    
+    let coverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
     }()
     
     
@@ -32,23 +54,51 @@ class BusStopHeaderContentView: UIView {
         backgroundColor = .white
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
+        addSubview(busTitleLbl)
         addSubview(searchBar)
+        addSubview(coverView)
+        coverView.addSubview(miniBusTitleLbl)
         
-        _ = searchBar.anchor(nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, topConstant: 0, leftConstant: 14, bottomConstant: 0, rightConstant: 14, widthConstant: 0, heightConstant: 58)
+        setupSearchBarConstraints()
+        setupTitleLbl()
+        setupOverlayView()
     }
     
+    var searchBarHeightAnchor: NSLayoutConstraint?
+    
+    func setupSearchBarConstraints() {
+        
+        searchBar.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        searchBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
+        searchBar.widthAnchor.constraint(equalTo: widthAnchor, constant: -16).isActive = true
+        
+        searchBarHeightAnchor = searchBar.heightAnchor.constraint(equalToConstant: 42)
+        searchBarHeightAnchor?.isActive = true
+    }
+    
+    func setupTitleLbl() {
+        _ = busTitleLbl.anchor(nil, left: leftAnchor, bottom: searchBar.topAnchor, right: nil, topConstant: 0, leftConstant: 18, bottomConstant: 8, rightConstant: 0, widthConstant: 225, heightConstant: 52)
+    }
+    
+    func setupOverlayView() {
+        
+        _ = coverView.anchor(topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 72)
+        
+        _ = miniBusTitleLbl.anchor(coverView.topAnchor, left: coverView.leftAnchor, bottom: nil, right: nil, topConstant: 34, leftConstant: 151.5, bottomConstant: 0, rightConstant: 0, widthConstant: 78, heightConstant: 24)
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
         searchBarTextFieldIncreaseSize(height: 42)
+        
     }
     
     
     func searchBarTextFieldIncreaseSize(height: CGFloat) {
         
-        self.searchBar.layoutSubviews()
         self.searchBar.layoutIfNeeded()
+        self.searchBar.layoutSubviews()
         
         for subView in searchBar.subviews  {
             for subsubView in subView.subviews  {
@@ -66,6 +116,7 @@ class BusStopHeaderContentView: UIView {
                 }
             }
         }
+    
     }
     
     required init?(coder aDecoder: NSCoder) {

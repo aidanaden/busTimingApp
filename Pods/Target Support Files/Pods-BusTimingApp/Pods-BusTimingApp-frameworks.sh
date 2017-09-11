@@ -90,6 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/MotionAnimator/MotionAnimator.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MotionInterchange/MotionInterchange.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MotionTransitioning/MotionTransitioning.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SHSearchBar/SHSearchBar.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftyJSON/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -99,5 +100,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/MotionAnimator/MotionAnimator.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MotionInterchange/MotionInterchange.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MotionTransitioning/MotionTransitioning.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SHSearchBar/SHSearchBar.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftyJSON/SwiftyJSON.framework"
 fi

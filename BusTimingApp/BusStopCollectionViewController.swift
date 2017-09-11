@@ -93,28 +93,43 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         // animate changes of nav bar when scrolling down certain level
         
         let contentOffsetY = scrollView.contentOffset.y
-//        var opacity: CGFloat = 1
+        print(contentOffsetY)
+        var opacity: CGFloat = 0
 //        let logoOpacity: CGFloat = 1
 //        var bigLogoOpacity: CGFloat = 1
         let duration = Double(0)
         var sbarHeight: CGFloat = 0
+        headerContentView.searchBar.placeholder = "Stop ID"
         
-        
-        if contentOffsetY >= -215 && contentOffsetY < -173 {
-            
-            sbarHeight = CGFloat(abs(contentOffsetY + 173))
+        if contentOffsetY > -190 {
+            headerContentView.searchBar.placeholder = ""
         }
         
-        if contentOffsetY < -215 {
+        if contentOffsetY >= -190 && contentOffsetY < -148 {
+            
+            sbarHeight = CGFloat(abs(contentOffsetY + 148))
+            headerContentView.searchBar.text = ""
+        }
+        
+        if contentOffsetY > -72 {
+            opacity = 1
+        }
+        
+        if contentOffsetY < -190 {
             sbarHeight = 42
         }
         
         UIView.animate(withDuration: duration, animations: {
             
             print(sbarHeight)
-            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
-            self.headerContentView.searchBar.layoutIfNeeded()
-            self.headerContentView.searchBar.layoutSubviews()
+//            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+            self.headerContentView.searchBarHeightAnchor?.isActive = false
+            self.headerContentView.searchBarHeightAnchor?.constant = sbarHeight
+            self.headerContentView.searchBarHeightAnchor?.isActive = true
+        })
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            self.headerContentView.miniBusTitleLbl.alpha = opacity
         })
         
       
@@ -125,11 +140,11 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         let bounds = UIScreen.main.bounds
         
         if bounds.size.width < bounds.size.height {
-            headerView.maximumHeight = 215
+            headerView.maximumHeight = 190
         } else {
-            headerView.maximumHeight = 75
+            headerView.maximumHeight = 72
         }
-        headerView.minimumHeight = 75
+        headerView.minimumHeight = 72
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,14 +160,17 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         headerView.trackingScrollView = collectionView
         
 //        let shadowLayer = CALayer()
-//        shadowLayer.shadowRadius = 0
-//        shadowLayer.shadowOffset = CGSize(width: 0, height: 1)
+//        shadowLayer.shadowRadius = 5
+//        shadowLayer.shadowOffset = CGSize(width: 0, height: 5)
 //        shadowLayer.shadowColor = UIColor.darkGray.cgColor
 //        shadowLayer.shadowOpacity = 1
-//        headerView.shadowLayer = shadowLayer
+        let customLayer = MDCShadowLayer()
+        customLayer.elevation = CGFloat(0.5)
+        customLayer.isShadowMaskEnabled = false
+        headerView.shadowLayer = customLayer
         
-        headerView.maximumHeight = 215
-        headerView.minimumHeight = 75
+        headerView.maximumHeight = 190
+        headerView.minimumHeight = 78
         headerView.backgroundColor = .white
         headerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         

@@ -9,5 +9,6 @@ target 'BusTimingApp' do
   pod 'MaterialComponents'
   pod 'SwiftyJSON'
   pod 'Material'
+  pod 'SHSearchBar'
 
 end
