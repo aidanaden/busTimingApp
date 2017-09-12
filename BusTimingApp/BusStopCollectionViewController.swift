@@ -53,6 +53,38 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         collectionView?.backgroundColor = .white
     }
     
+    var sbarHeight: CGFloat = 38
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        searchBarTextFieldIncreaseSize(height: sbarHeight)
+    }
+    
+    func searchBarTextFieldIncreaseSize(height: CGFloat) {
+        
+        headerContentView.searchBar.layoutIfNeeded()
+        headerContentView.searchBar.layoutSubviews()
+        
+        for subView in headerContentView.searchBar.subviews  {
+            for subsubView in subView.subviews  {
+                if let textField = subsubView as? UITextField {
+                    var bounds: CGRect
+                    bounds = textField.frame
+                    bounds.size.height = height //(set height whatever you want)
+                    textField.bounds = bounds
+                    textField.cornerRadius = CGFloat(12.5)
+                    textField.masksToBounds = true
+                    textField.setLeftPaddingPoints(5)
+                    //                    textField.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+                    textField.backgroundColor = UIColor.init(white: 0.89, alpha: 1)
+                    //                    textField.font = UIFont.systemFontOfSize(20)
+                }
+            }
+        }
+        
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -95,19 +127,20 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         let contentOffsetY = scrollView.contentOffset.y
         print(contentOffsetY)
         var opacity: CGFloat = 0
+        var sbarOpacity: CGFloat = 1
 //        let logoOpacity: CGFloat = 1
 //        var bigLogoOpacity: CGFloat = 1
         let duration = Double(0)
-        var sbarHeight: CGFloat = 0
+        
         headerContentView.searchBar.placeholder = "Stop ID"
         
         if contentOffsetY > -190 {
             headerContentView.searchBar.placeholder = ""
         }
         
-        if contentOffsetY >= -190 && contentOffsetY < -148 {
+        if contentOffsetY >= -190 && contentOffsetY < -152 {
             
-            sbarHeight = CGFloat(abs(contentOffsetY + 148))
+            sbarHeight = CGFloat(abs(contentOffsetY + 152))
             headerContentView.searchBar.text = ""
         }
         
@@ -116,20 +149,25 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         }
         
         if contentOffsetY < -190 {
-            sbarHeight = 42
+            sbarHeight = 38
+        }
+        
+        if sbarHeight <= 38 * 3/8 {
+            sbarOpacity = 0
         }
         
         UIView.animate(withDuration: duration, animations: {
+            print(self.sbarHeight)
             
-            print(sbarHeight)
 //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
             self.headerContentView.searchBarHeightAnchor?.isActive = false
-            self.headerContentView.searchBarHeightAnchor?.constant = sbarHeight
+            self.headerContentView.searchBarHeightAnchor?.constant = self.sbarHeight
             self.headerContentView.searchBarHeightAnchor?.isActive = true
         })
         
         UIView.animate(withDuration: 0.25, animations: {
             self.headerContentView.miniBusTitleLbl.alpha = opacity
+            self.headerContentView.searchBar.alpha = sbarOpacity
         })
         
       

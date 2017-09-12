@@ -72,7 +72,7 @@ class BusStopHeaderContentView: UIView {
         searchBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
         searchBar.widthAnchor.constraint(equalTo: widthAnchor, constant: -16).isActive = true
         
-        searchBarHeightAnchor = searchBar.heightAnchor.constraint(equalToConstant: 42)
+        searchBarHeightAnchor = searchBar.heightAnchor.constraint(equalToConstant: 38)
         searchBarHeightAnchor?.isActive = true
     }
     
@@ -90,34 +90,8 @@ class BusStopHeaderContentView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        searchBarTextFieldIncreaseSize(height: 42)
-        
     }
     
-    
-    func searchBarTextFieldIncreaseSize(height: CGFloat) {
-        
-        self.searchBar.layoutIfNeeded()
-        self.searchBar.layoutSubviews()
-        
-        for subView in searchBar.subviews  {
-            for subsubView in subView.subviews  {
-                if let textField = subsubView as? UITextField {
-                    var bounds: CGRect
-                    bounds = textField.frame
-                    bounds.size.height = height //(set height whatever you want)
-                    textField.bounds = bounds
-                    textField.cornerRadius = CGFloat(12)
-                    textField.masksToBounds = true
-                    textField.setLeftPaddingPoints(5)
-                    //                    textField.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
-                    textField.backgroundColor = UIColor.init(white: 0.9, alpha: 1)
-                    //                    textField.font = UIFont.systemFontOfSize(20)
-                }
-            }
-        }
-    
-    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
