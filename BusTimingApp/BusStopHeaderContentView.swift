@@ -28,6 +28,7 @@ class BusStopHeaderContentView: UIView {
         let lbl = UILabel()
         lbl.font = UIFont.boldSystemFont(ofSize: 42)
         lbl.text = "Timings"
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
     
@@ -43,6 +44,14 @@ class BusStopHeaderContentView: UIView {
     let coverView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let titleCoverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -54,13 +63,14 @@ class BusStopHeaderContentView: UIView {
         backgroundColor = .white
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        addSubview(busTitleLbl)
         addSubview(searchBar)
+        addSubview(titleCoverView)
+        titleCoverView.addSubview(busTitleLbl)
         addSubview(coverView)
         coverView.addSubview(miniBusTitleLbl)
         
         setupSearchBarConstraints()
-        setupTitleLbl()
+        setupTitleAndOverlay()
         setupOverlayView()
     }
     
@@ -76,8 +86,18 @@ class BusStopHeaderContentView: UIView {
         searchBarHeightAnchor?.isActive = true
     }
     
-    func setupTitleLbl() {
-        _ = busTitleLbl.anchor(nil, left: leftAnchor, bottom: searchBar.topAnchor, right: nil, topConstant: 0, leftConstant: 18, bottomConstant: 8, rightConstant: 0, widthConstant: 225, heightConstant: 52)
+    var busTitleCoverBottomAnchor: NSLayoutConstraint?
+    
+    func setupTitleAndOverlay() {
+        
+        titleCoverView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        titleCoverView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        titleCoverView.topAnchor.constraint(equalTo: coverView.bottomAnchor).isActive = true
+        
+        busTitleCoverBottomAnchor = titleCoverView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -62)
+        busTitleCoverBottomAnchor?.isActive = true
+        
+        _ = busTitleLbl.anchor(nil, left: leftAnchor, bottom: titleCoverView.bottomAnchor, right: nil, topConstant: 0, leftConstant: 18, bottomConstant: 8, rightConstant: 0, widthConstant: 225, heightConstant: 52)
     }
     
     func setupOverlayView() {

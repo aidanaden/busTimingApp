@@ -73,7 +73,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
                     bounds = textField.frame
                     bounds.size.height = height //(set height whatever you want)
                     textField.bounds = bounds
-                    textField.cornerRadius = CGFloat(12.5)
+                    textField.cornerRadius = CGFloat(10)
                     textField.masksToBounds = true
                     textField.setLeftPaddingPoints(5)
                     //                    textField.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
@@ -118,6 +118,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         return CGSize(width: cellWidth, height: cellHeight)
     }
     
+    var titleLblAnchorConstant: CGFloat = 62
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         headerViewController.scrollViewDidScroll(scrollView)
@@ -125,7 +126,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         // animate changes of nav bar when scrolling down certain level
         
         let contentOffsetY = scrollView.contentOffset.y
-        print(contentOffsetY)
+        print("content offset: \(contentOffsetY)")
         var opacity: CGFloat = 0
         var sbarOpacity: CGFloat = 1
 //        let logoOpacity: CGFloat = 1
@@ -141,25 +142,40 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         if contentOffsetY >= -190 && contentOffsetY < -152 {
             
             sbarHeight = CGFloat(abs(contentOffsetY + 152))
-            headerContentView.searchBar.text = ""
+//            headerContentView.searchBar.text = ""
         }
         
-        if contentOffsetY > -72 {
+        if contentOffsetY >= -190 && contentOffsetY < -138 { // -138 is higher limit where nav bar line reaches title
+            titleLblAnchorConstant = CGFloat(abs(contentOffsetY + 138))
+        }
+        
+        if contentOffsetY > -138 {   // set title lbl bottom constraint to min value when dragged up
+            titleLblAnchorConstant = 0
+        }
+        
+        if contentOffsetY > -72 { // set mini lbl opacity to 1 when nav bar becomes small
             opacity = 1
         }
         
-        if contentOffsetY < -190 {
+        if contentOffsetY < -190 {  // set search bar height and title lbl bottom constraint to max value
+                                    // when dragged down
             sbarHeight = 38
+            titleLblAnchorConstant = 52
         }
         
         if sbarHeight <= 38 * 3/8 {
             sbarOpacity = 0
         }
         
+        
         UIView.animate(withDuration: duration, animations: {
-            print(self.sbarHeight)
+            print("title bar anchor height: \(-self.titleLblAnchorConstant)")
             
 //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+            self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
+            self.headerContentView.busTitleCoverBottomAnchor?.constant = -(self.titleLblAnchorConstant)
+            self.headerContentView.busTitleCoverBottomAnchor?.isActive = true
+            
             self.headerContentView.searchBarHeightAnchor?.isActive = false
             self.headerContentView.searchBarHeightAnchor?.constant = self.sbarHeight
             self.headerContentView.searchBarHeightAnchor?.isActive = true

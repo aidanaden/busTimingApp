@@ -287,11 +287,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopCollectionViewController.swift"
-            timestampString = "526918782.960282"
+            timestampString = "527008856.140233"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "setupSearchBar()"
             landmarkType = "7">
          </BreakpointContent>
@@ -303,11 +303,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopCollectionViewController.swift"
-            timestampString = "526918782.960282"
+            timestampString = "527008856.140233"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -319,11 +319,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopCollectionViewController.swift"
-            timestampString = "526918670.229185"
+            timestampString = "527006460.905975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "7">
          </BreakpointContent>
