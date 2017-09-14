@@ -53,7 +53,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         collectionView?.backgroundColor = .white
     }
     
-    var sbarHeight: CGFloat = 38
+    var sbarHeight: CGFloat = 41
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -73,11 +73,12 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
                     bounds = textField.frame
                     bounds.size.height = height //(set height whatever you want)
                     textField.bounds = bounds
-                    textField.cornerRadius = CGFloat(10)
+                    textField.cornerRadius = CGFloat(sbarHeight/3)
                     textField.masksToBounds = true
-                    textField.setLeftPaddingPoints(5)
+                    textField.setLeftPaddingPoints(4)
+                    textField.alpha = height/41 
                     //                    textField.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
-                    textField.backgroundColor = UIColor.init(white: 0.89, alpha: 1)
+                    textField.backgroundColor = UIColor.init(white: 0.87, alpha: 1)
                     //                    textField.font = UIFont.systemFontOfSize(20)
                 }
             }
@@ -118,7 +119,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         return CGSize(width: cellWidth, height: cellHeight)
     }
     
-    var titleLblAnchorConstant: CGFloat = 62
+    var titleLblAnchorConstant: CGFloat = 57
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         headerViewController.scrollViewDidScroll(scrollView)
@@ -128,28 +129,28 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         let contentOffsetY = scrollView.contentOffset.y
         print("content offset: \(contentOffsetY)")
         var opacity: CGFloat = 0
-        var sbarOpacity: CGFloat = 1
+        let sbarOpacity: CGFloat = 1
 //        let logoOpacity: CGFloat = 1
 //        var bigLogoOpacity: CGFloat = 1
         let duration = Double(0)
         
         headerContentView.searchBar.placeholder = "Stop ID"
         
-        if contentOffsetY > -190 {
+        if contentOffsetY > -180 {
             headerContentView.searchBar.placeholder = ""
         }
         
-        if contentOffsetY >= -190 && contentOffsetY < -152 {
+        if contentOffsetY >= -180 && contentOffsetY < -139 { // upper limit of sbar
             
-            sbarHeight = CGFloat(abs(contentOffsetY + 152))
+            sbarHeight = CGFloat(abs(contentOffsetY + 139))
 //            headerContentView.searchBar.text = ""
         }
         
-        if contentOffsetY >= -190 && contentOffsetY < -138 { // -138 is higher limit where nav bar line reaches title
-            titleLblAnchorConstant = CGFloat(abs(contentOffsetY + 138))
+        if contentOffsetY >= -180 && contentOffsetY < -123 { // -128 is higher limit where nav bar line reaches title
+            titleLblAnchorConstant = CGFloat(abs(contentOffsetY + 123)) // compensate by adding 128
         }
         
-        if contentOffsetY > -138 {   // set title lbl bottom constraint to min value when dragged up
+        if contentOffsetY > -123 {   // set title lbl bottom constraint to MIN value when dragged up
             titleLblAnchorConstant = 0
         }
         
@@ -157,19 +158,23 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
             opacity = 1
         }
         
-        if contentOffsetY < -190 {  // set search bar height and title lbl bottom constraint to max value
+        if contentOffsetY < -180 {  // set search bar height and title lbl bottom constraint to MAX VALUE
                                     // when dragged down
-            sbarHeight = 38
-            titleLblAnchorConstant = 52
+            sbarHeight = 41
+            titleLblAnchorConstant = 57
         }
         
-        if sbarHeight <= 38 * 3/8 {
-            sbarOpacity = 0
-        }
+//        if sbarHeight < 41/2 {
+//            
+//        }
+//        if sbarHeight <= 38 * 3/8 {
+//            sbarOpacity = 0
+//        }
         
         
         UIView.animate(withDuration: duration, animations: {
             print("title bar anchor height: \(-self.titleLblAnchorConstant)")
+            print("Search bar height: \(self.sbarHeight)")
             
 //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
             self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
@@ -194,7 +199,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         let bounds = UIScreen.main.bounds
         
         if bounds.size.width < bounds.size.height {
-            headerView.maximumHeight = 190
+            headerView.maximumHeight = 180
         } else {
             headerView.maximumHeight = 72
         }
@@ -223,8 +228,8 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         customLayer.isShadowMaskEnabled = false
         headerView.shadowLayer = customLayer
         
-        headerView.maximumHeight = 190
-        headerView.minimumHeight = 78
+        headerView.maximumHeight = 180
+        headerView.minimumHeight = 72
         headerView.backgroundColor = .white
         headerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         

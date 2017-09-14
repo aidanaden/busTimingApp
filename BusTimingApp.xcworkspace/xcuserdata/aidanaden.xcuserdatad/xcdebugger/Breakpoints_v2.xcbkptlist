@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "526733141.870572"
+            timestampString = "527092374.807788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "132"
@@ -79,7 +79,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "526733141.870572"
+            timestampString = "527092374.807788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
@@ -175,7 +175,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "526733141.870572"
+            timestampString = "527092374.807788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "159"
@@ -191,7 +191,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopCollectionViewController.swift"
-            timestampString = "526918670.229185"
+            timestampString = "527091714.972853"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusTimingApp/BusStopCollectionViewController.swift"
+            timestampString = "527091714.972853"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "105"
@@ -206,24 +222,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BusTimingApp/BusStopCollectionViewController.swift"
-            timestampString = "526918670.229185"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "526733141.870572"
+            timestampString = "527092374.807788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "107"
@@ -239,7 +239,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "526733141.870572"
+            timestampString = "527092374.807788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "114"
@@ -287,11 +287,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopCollectionViewController.swift"
-            timestampString = "527008856.140233"
+            timestampString = "527091714.972853"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "setupSearchBar()"
             landmarkType = "7">
          </BreakpointContent>
@@ -303,11 +303,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopCollectionViewController.swift"
-            timestampString = "527008856.140233"
+            timestampString = "527091714.972853"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
             landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -319,11 +319,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopCollectionViewController.swift"
-            timestampString = "527006460.905975"
+            timestampString = "527091714.972853"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "scrollViewDidScroll(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BusTimingApp/BusStopCollectionViewController.swift"
+            timestampString = "527091714.972853"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "7">
          </BreakpointContent>

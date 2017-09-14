@@ -79,7 +79,7 @@ class BusStopHeaderContentView: UIView {
     func setupSearchBarConstraints() {
         
         searchBar.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
-        searchBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
+        searchBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -13).isActive = true
         searchBar.widthAnchor.constraint(equalTo: widthAnchor, constant: -16).isActive = true
         
         searchBarHeightAnchor = searchBar.heightAnchor.constraint(equalToConstant: 38)
@@ -94,10 +94,10 @@ class BusStopHeaderContentView: UIView {
         titleCoverView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         titleCoverView.topAnchor.constraint(equalTo: coverView.bottomAnchor).isActive = true
         
-        busTitleCoverBottomAnchor = titleCoverView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -62)
+        busTitleCoverBottomAnchor = titleCoverView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -57)
         busTitleCoverBottomAnchor?.isActive = true
         
-        _ = busTitleLbl.anchor(nil, left: leftAnchor, bottom: titleCoverView.bottomAnchor, right: nil, topConstant: 0, leftConstant: 18, bottomConstant: 8, rightConstant: 0, widthConstant: 225, heightConstant: 52)
+        _ = busTitleLbl.anchor(nil, left: leftAnchor, bottom: titleCoverView.bottomAnchor, right: nil, topConstant: 0, leftConstant: 18, bottomConstant: 4, rightConstant: 0, widthConstant: 225, heightConstant: 52)
     }
     
     func setupOverlayView() {
