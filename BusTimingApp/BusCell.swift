@@ -10,7 +10,7 @@ import UIKit
 import MaterialComponents
 import SwiftyJSON
 import CoreData
-import Material
+
 
 class BusCell: UICollectionViewCell {
     

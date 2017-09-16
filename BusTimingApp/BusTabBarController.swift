@@ -36,7 +36,7 @@ class BusTabBarController: MDCTabBarViewController {
         let childVC = viewControllers.first
         selectedViewController = childVC
         
-        tabBar?.backgroundColor = .white
+        tabBar?.backgroundColor = UIColor.init(white: 0.98, alpha: 1)
         tabBar?.selectedItemTintColor = .black
         tabBar?.unselectedItemTintColor = MDCPalette.grey.tint700
         tabBar?.inkColor = MDCPalette.blueGrey.tint100

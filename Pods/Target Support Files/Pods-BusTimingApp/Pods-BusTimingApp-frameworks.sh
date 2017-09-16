@@ -85,7 +85,6 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/MDFTextAccessibility/MDFTextAccessibility.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/Material/Material.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MaterialComponents/MaterialComponents.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MotionAnimator/MotionAnimator.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MotionInterchange/MotionInterchange.framework"
@@ -95,7 +94,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/MDFTextAccessibility/MDFTextAccessibility.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/Material/Material.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MaterialComponents/MaterialComponents.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MotionAnimator/MotionAnimator.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MotionInterchange/MotionInterchange.framework"

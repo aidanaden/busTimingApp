@@ -10,7 +10,6 @@ import UIKit
 import MaterialComponents
 import CoreData
 import SwiftyJSON
-import Material
 
 class BusStopCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
     
@@ -58,6 +57,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
+        self.headerContentView.searchBar.placeholder = "Stop ID"
         searchBarTextFieldIncreaseSize(height: sbarHeight)
     }
     
@@ -73,13 +73,13 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
                     bounds = textField.frame
                     bounds.size.height = height //(set height whatever you want)
                     textField.bounds = bounds
-                    textField.cornerRadius = CGFloat(sbarHeight/3)
-                    textField.masksToBounds = true
+                    textField.layer.cornerRadius = CGFloat(sbarHeight/3)
+                    textField.layer.masksToBounds = true
                     textField.setLeftPaddingPoints(4)
                     textField.alpha = height/41 
                     //                    textField.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
-                    textField.backgroundColor = UIColor.init(white: 0.87, alpha: 1)
-                    //                    textField.font = UIFont.systemFontOfSize(20)
+//                    textField.backgroundColor = UIColor.init(white: 0.87, alpha: 1)
+                    textField.font = UIFont.systemFont(ofSize: 15)
                 }
             }
         }
@@ -134,8 +134,6 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
 //        var bigLogoOpacity: CGFloat = 1
         let duration = Double(0)
         
-        headerContentView.searchBar.placeholder = "Stop ID"
-        
         if contentOffsetY > -180 {
             headerContentView.searchBar.placeholder = ""
         }
@@ -146,15 +144,15 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
 //            headerContentView.searchBar.text = ""
         }
         
-        if contentOffsetY >= -180 && contentOffsetY < -123 { // -128 is higher limit where nav bar line reaches title
-            titleLblAnchorConstant = CGFloat(abs(contentOffsetY + 123)) // compensate by adding 128
+        if contentOffsetY >= -180 && contentOffsetY < -123 { // -123 is higher limit where nav bar line reaches title
+            titleLblAnchorConstant = CGFloat(abs(contentOffsetY + 123)) // compensate by adding 123
         }
         
         if contentOffsetY > -123 {   // set title lbl bottom constraint to MIN value when dragged up
             titleLblAnchorConstant = 0
         }
         
-        if contentOffsetY > -72 { // set mini lbl opacity to 1 when nav bar becomes small
+        if contentOffsetY >= -72 { // set mini lbl opacity to 1 when nav bar becomes small
             opacity = 1
         }
         
@@ -164,9 +162,6 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
             titleLblAnchorConstant = 57
         }
         
-//        if sbarHeight < 41/2 {
-//            
-//        }
 //        if sbarHeight <= 38 * 3/8 {
 //            sbarOpacity = 0
 //        }
@@ -194,6 +189,100 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
       
     }
     
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        headerViewController.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
+        
+        let contentOffsetY = scrollView.contentOffset.y
+        var offset: CGFloat = 0
+        print(contentOffsetY)
+        
+        
+        if contentOffsetY < -99 && contentOffsetY > -152.5 {
+            sbarHeight = 0
+            titleLblAnchorConstant = 0
+            offset = -123
+        }
+        
+        if contentOffsetY <= -152.5 && contentOffsetY > -180 {
+            sbarHeight = 41
+            titleLblAnchorConstant = 57
+            offset = -180
+        }
+        
+        if contentOffsetY >= -99 && contentOffsetY < -72 {
+            offset = -72
+        }
+    
+        
+        if contentOffsetY > -72 {
+            return
+        }
+        
+        if contentOffsetY <= -180 {
+            offset = contentOffsetY
+        }
+        
+        
+        UIView.animate(withDuration: 0.28, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.2, options: .curveEaseInOut, animations: {
+            //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+            self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
+            self.headerContentView.busTitleCoverBottomAnchor?.constant = -(self.titleLblAnchorConstant)
+            self.headerContentView.busTitleCoverBottomAnchor?.isActive = true
+            
+            self.headerContentView.searchBarHeightAnchor?.isActive = false
+            self.headerContentView.searchBarHeightAnchor?.constant = self.sbarHeight
+            self.headerContentView.searchBarHeightAnchor?.isActive = true
+            
+            scrollView.contentOffset.y = offset
+        }, completion: nil)
+    }
+    
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        headerViewController.scrollViewDidEndDecelerating(scrollView)
+        let contentOffsetY = scrollView.contentOffset.y
+        var offset: CGFloat = 0
+        print(contentOffsetY)
+        
+        if contentOffsetY < -99 && contentOffsetY > -155 {
+            sbarHeight = 0
+            titleLblAnchorConstant = 0
+            offset = -123
+        }
+        
+        if contentOffsetY < -155 && contentOffsetY > -180 {
+            sbarHeight = 41
+            titleLblAnchorConstant = 57
+            offset = -180
+        }
+        
+        if contentOffsetY > -99 && contentOffsetY < -72 {
+            offset = -72
+        }
+        
+        
+        if contentOffsetY > -72 {
+            return
+        }
+        
+        if contentOffsetY <= -180 {
+            offset = contentOffsetY
+        }
+        
+        UIView.animate(withDuration: 0.28, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.2, options: .curveEaseInOut, animations: {
+            //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+            self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
+            self.headerContentView.busTitleCoverBottomAnchor?.constant = -(self.titleLblAnchorConstant)
+            self.headerContentView.busTitleCoverBottomAnchor?.isActive = true
+            
+            self.headerContentView.searchBarHeightAnchor?.isActive = false
+            self.headerContentView.searchBarHeightAnchor?.constant = self.sbarHeight
+            self.headerContentView.searchBarHeightAnchor?.isActive = true
+            
+            scrollView.contentOffset.y = offset
+        }, completion: nil)
+    }
+    
+    
     func sizeHeaderView() {
         let headerView = headerViewController.headerView
         let bounds = UIScreen.main.bounds
@@ -218,15 +307,17 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         let headerView = headerViewController.headerView
         headerView.trackingScrollView = collectionView
         
-//        let shadowLayer = CALayer()
-//        shadowLayer.shadowRadius = 5
-//        shadowLayer.shadowOffset = CGSize(width: 0, height: 5)
-//        shadowLayer.shadowColor = UIColor.darkGray.cgColor
-//        shadowLayer.shadowOpacity = 1
-        let customLayer = MDCShadowLayer()
-        customLayer.elevation = CGFloat(0.5)
-        customLayer.isShadowMaskEnabled = false
-        headerView.shadowLayer = customLayer
+        let shadowLayer = CALayer()
+        shadowLayer.shadowOffset = CGSize(width: 1, height: 1)
+        shadowLayer.shadowColor = UIColor.darkGray.cgColor
+        shadowLayer.shadowOpacity = 1
+        shadowLayer.shadowRadius = 1
+//        let customLayer = MDCShadowLayer()
+//        customLayer.elevation = CGFloat(0.5)
+//        customLayer.isShadowMaskEnabled = false
+        headerView.shadowLayer = shadowLayer
+        headerView.shadowLayer?.isHidden = false
+
         
         headerView.maximumHeight = 180
         headerView.minimumHeight = 72

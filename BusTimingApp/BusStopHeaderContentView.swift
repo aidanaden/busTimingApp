@@ -8,19 +8,23 @@
 
 import UIKit
 import MaterialComponents
-import Material
 
 class BusStopHeaderContentView: UIView {
     
     var searchBar: UISearchBar = {
         let sbar = UISearchBar()
         sbar.placeholder = "Stop ID"
-        sbar.tintColor = .lightGray
+        sbar.setTextColor(color: UIColor.darkText)
+        sbar.setTextFieldColor(color: UIColor.init(rgb: 0xDEDDE2))
+        sbar.setPlaceholderTextColor(color: UIColor.darkGray.withAlphaComponent(0.8))
+        sbar.setSearchImageColor(color: UIColor.darkGray.withAlphaComponent(0.8))
+        sbar.setTextFieldClearButtonColor(color: UIColor.darkGray.withAlphaComponent(0.8))
+        sbar.tintColor = .darkGray
         sbar.translatesAutoresizingMaskIntoConstraints = false
         sbar.backgroundImage = UIImage()
         sbar.layer.cornerRadius = 12
-        sbar.masksToBounds = true
-
+        sbar.clipsToBounds = true
+        
         return sbar
     }()
     
@@ -68,7 +72,7 @@ class BusStopHeaderContentView: UIView {
         titleCoverView.addSubview(busTitleLbl)
         addSubview(coverView)
         coverView.addSubview(miniBusTitleLbl)
-        
+    
         setupSearchBarConstraints()
         setupTitleAndOverlay()
         setupOverlayView()
@@ -82,7 +86,7 @@ class BusStopHeaderContentView: UIView {
         searchBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -13).isActive = true
         searchBar.widthAnchor.constraint(equalTo: widthAnchor, constant: -16).isActive = true
         
-        searchBarHeightAnchor = searchBar.heightAnchor.constraint(equalToConstant: 38)
+        searchBarHeightAnchor = searchBar.heightAnchor.constraint(equalToConstant: 41)
         searchBarHeightAnchor?.isActive = true
     }
     
@@ -107,10 +111,6 @@ class BusStopHeaderContentView: UIView {
         _ = miniBusTitleLbl.anchor(coverView.topAnchor, left: coverView.leftAnchor, bottom: nil, right: nil, topConstant: 34, leftConstant: 151.5, bottomConstant: 0, rightConstant: 0, widthConstant: 78, heightConstant: 24)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
     
     
     required init?(coder aDecoder: NSCoder) {

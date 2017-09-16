@@ -482,9 +482,8 @@ static void *kItemPropertyContext = &kItemPropertyContext;
 - (NSInteger)indexForItem:(nullable UITabBarItem *)item {
   if (item) {
     return [_items indexOfObject:item];
-  } else {
-    return NSNotFound;
   }
+  return NSNotFound;
 }
 
 - (NSIndexPath *)indexPathForItemAtIndex:(NSInteger)index {
