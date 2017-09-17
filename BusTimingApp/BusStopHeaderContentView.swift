@@ -15,7 +15,7 @@ class BusStopHeaderContentView: UIView {
         let sbar = UISearchBar()
         sbar.placeholder = "Stop ID"
         sbar.setTextColor(color: UIColor.darkText)
-        sbar.setTextFieldColor(color: UIColor.init(rgb: 0xDEDDE2))
+        sbar.setTextFieldColor(color: UIColor.lightGray.withAlphaComponent(0.35))
         sbar.setPlaceholderTextColor(color: UIColor.darkGray.withAlphaComponent(0.8))
         sbar.setSearchImageColor(color: UIColor.darkGray.withAlphaComponent(0.8))
         sbar.setTextFieldClearButtonColor(color: UIColor.darkGray.withAlphaComponent(0.8))
@@ -30,7 +30,7 @@ class BusStopHeaderContentView: UIView {
     
     let busTitleLbl: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.boldSystemFont(ofSize: 42)
+        lbl.font = UIFont.systemFont(ofSize: 38, weight: UIFontWeightBold)
         lbl.text = "Timings"
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl

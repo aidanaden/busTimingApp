@@ -130,8 +130,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         print("content offset: \(contentOffsetY)")
         var opacity: CGFloat = 0
         let sbarOpacity: CGFloat = 1
-//        let logoOpacity: CGFloat = 1
-//        var bigLogoOpacity: CGFloat = 1
+        var titleMultiplier: CGFloat = 1
         let duration = Double(0)
         
         if contentOffsetY > -180 {
@@ -160,6 +159,7 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
                                     // when dragged down
             sbarHeight = 41
             titleLblAnchorConstant = 57
+            titleMultiplier = min(contentOffsetY / -180, 1.1)
         }
         
 //        if sbarHeight <= 38 * 3/8 {
@@ -171,7 +171,9 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
             print("title bar anchor height: \(-self.titleLblAnchorConstant)")
             print("Search bar height: \(self.sbarHeight)")
             
-//            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+//          self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+            self.headerContentView.busTitleLbl.font = UIFont.systemFont(ofSize: 38 * titleMultiplier, weight: UIFontWeightBold)
+            
             self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
             self.headerContentView.busTitleCoverBottomAnchor?.constant = -(self.titleLblAnchorConstant)
             self.headerContentView.busTitleCoverBottomAnchor?.isActive = true
@@ -196,90 +198,93 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         var offset: CGFloat = 0
         print(contentOffsetY)
         
-        
-        if contentOffsetY < -99 && contentOffsetY > -152.5 {
-            sbarHeight = 0
-            titleLblAnchorConstant = 0
-            offset = -123
-        }
-        
-        if contentOffsetY <= -152.5 && contentOffsetY > -180 {
-            sbarHeight = 41
-            titleLblAnchorConstant = 57
-            offset = -180
-        }
-        
-        if contentOffsetY >= -99 && contentOffsetY < -72 {
-            offset = -72
-        }
-    
-        
-        if contentOffsetY > -72 {
-            return
-        }
-        
-        if contentOffsetY <= -180 {
-            offset = contentOffsetY
-        }
-        
-        
-        UIView.animate(withDuration: 0.28, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.2, options: .curveEaseInOut, animations: {
-            //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
-            self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
-            self.headerContentView.busTitleCoverBottomAnchor?.constant = -(self.titleLblAnchorConstant)
-            self.headerContentView.busTitleCoverBottomAnchor?.isActive = true
+        if !decelerate {
             
-            self.headerContentView.searchBarHeightAnchor?.isActive = false
-            self.headerContentView.searchBarHeightAnchor?.constant = self.sbarHeight
-            self.headerContentView.searchBarHeightAnchor?.isActive = true
+            if contentOffsetY < -99 && contentOffsetY > -152.5 {
+                sbarHeight = 0
+                titleLblAnchorConstant = 0
+                offset = -123
+            }
             
-            scrollView.contentOffset.y = offset
-        }, completion: nil)
+            if contentOffsetY <= -152.5 && contentOffsetY > -180 {
+                sbarHeight = 41
+                titleLblAnchorConstant = 57
+                offset = -180
+            }
+            
+            if contentOffsetY >= -99 && contentOffsetY < -72 {
+                offset = -72
+            }
+            
+            
+            if contentOffsetY > -72 {
+                return
+            }
+            
+            if contentOffsetY <= -180 {
+                offset = contentOffsetY
+            }
+            
+            
+            UIView.animate(withDuration: 0.225, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.01, options: .curveEaseInOut, animations: {
+                //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+                self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
+                self.headerContentView.busTitleCoverBottomAnchor?.constant = -(self.titleLblAnchorConstant)
+                self.headerContentView.busTitleCoverBottomAnchor?.isActive = true
+                
+                self.headerContentView.searchBarHeightAnchor?.isActive = false
+                self.headerContentView.searchBarHeightAnchor?.constant = self.sbarHeight
+                self.headerContentView.searchBarHeightAnchor?.isActive = true
+                
+                scrollView.contentOffset.y = offset
+            }, completion: nil)
+        }
+        
     }
     
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         headerViewController.scrollViewDidEndDecelerating(scrollView)
-        let contentOffsetY = scrollView.contentOffset.y
-        var offset: CGFloat = 0
-        print(contentOffsetY)
-        
-        if contentOffsetY < -99 && contentOffsetY > -155 {
-            sbarHeight = 0
-            titleLblAnchorConstant = 0
-            offset = -123
-        }
-        
-        if contentOffsetY < -155 && contentOffsetY > -180 {
-            sbarHeight = 41
-            titleLblAnchorConstant = 57
-            offset = -180
-        }
-        
-        if contentOffsetY > -99 && contentOffsetY < -72 {
-            offset = -72
-        }
-        
-        
-        if contentOffsetY > -72 {
-            return
-        }
-        
-        if contentOffsetY <= -180 {
-            offset = contentOffsetY
-        }
-        
-        UIView.animate(withDuration: 0.28, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.2, options: .curveEaseInOut, animations: {
-            //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
-            self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
-            self.headerContentView.busTitleCoverBottomAnchor?.constant = -(self.titleLblAnchorConstant)
-            self.headerContentView.busTitleCoverBottomAnchor?.isActive = true
-            
-            self.headerContentView.searchBarHeightAnchor?.isActive = false
-            self.headerContentView.searchBarHeightAnchor?.constant = self.sbarHeight
-            self.headerContentView.searchBarHeightAnchor?.isActive = true
-            
-            scrollView.contentOffset.y = offset
-        }, completion: nil)
+//        let contentOffsetY = scrollView.contentOffset.y
+//        var offset: CGFloat = 0
+//        print(contentOffsetY)
+//        
+//        if contentOffsetY < -99 && contentOffsetY > -155 {
+//            sbarHeight = 0
+//            titleLblAnchorConstant = 0
+//            offset = -123
+//        }
+//        
+//        if contentOffsetY < -155 && contentOffsetY > -180 {
+//            sbarHeight = 41
+//            titleLblAnchorConstant = 57
+//            offset = -180
+//        }
+//        
+//        if contentOffsetY > -99 && contentOffsetY < -72 {
+//            offset = -72
+//        }
+//        
+//        
+//        if contentOffsetY > -72 {
+//            return
+//        }
+//        
+//        if contentOffsetY <= -180 {
+//            offset = contentOffsetY
+//        }
+//        
+//        UIView.animate(withDuration: 0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.2, options: .curveEaseInOut, animations: {
+//            //            self.headerContentView.searchBarTextFieldIncreaseSize(height: sbarHeight)
+//            self.headerContentView.busTitleCoverBottomAnchor?.isActive = false
+//            self.headerContentView.busTitleCoverBottomAnchor?.constant = -(self.titleLblAnchorConstant)
+//            self.headerContentView.busTitleCoverBottomAnchor?.isActive = true
+//            
+//            self.headerContentView.searchBarHeightAnchor?.isActive = false
+//            self.headerContentView.searchBarHeightAnchor?.constant = self.sbarHeight
+//            self.headerContentView.searchBarHeightAnchor?.isActive = true
+//            
+//            scrollView.contentOffset.y = offset
+//        }, completion: nil)
     }
     
     
@@ -307,16 +312,15 @@ class BusStopCollectionViewController: UICollectionViewController, UICollectionV
         let headerView = headerViewController.headerView
         headerView.trackingScrollView = collectionView
         
-        let shadowLayer = CALayer()
-        shadowLayer.shadowOffset = CGSize(width: 1, height: 1)
-        shadowLayer.shadowColor = UIColor.darkGray.cgColor
-        shadowLayer.shadowOpacity = 1
-        shadowLayer.shadowRadius = 1
-//        let customLayer = MDCShadowLayer()
-//        customLayer.elevation = CGFloat(0.5)
-//        customLayer.isShadowMaskEnabled = false
-        headerView.shadowLayer = shadowLayer
-        headerView.shadowLayer?.isHidden = false
+//        let shadowLayer = CALayer()
+//        shadowLayer.shadowOffset = CGSize(width: 1, height: 1)
+//        shadowLayer.shadowColor = UIColor.darkGray.cgColor
+//        shadowLayer.shadowOpacity = 1
+//        shadowLayer.shadowRadius = 1
+        let customLayer = MDCShadowLayer()
+        customLayer.elevation = CGFloat(0.5)
+        customLayer.isShadowMaskEnabled = false
+        headerView.shadowLayer = customLayer
 
         
         headerView.maximumHeight = 180
