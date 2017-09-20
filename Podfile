@@ -6,8 +6,7 @@ target 'BusTimingApp' do
   use_frameworks!
 
   # Pods for BusTimingApp
-  pod 'MaterialComponents'
   pod 'SwiftyJSON'
-  pod 'SHSearchBar'
+  pod 'SwipeCellKit', :git => 'https://github.com/SwipeCellKit/SwipeCellKit.git', :branch => 'swift4'
 
 end

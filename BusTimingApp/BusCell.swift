@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import MaterialComponents
 import SwiftyJSON
 import CoreData
+import SwipeCellKit
 
-
-class BusCell: UICollectionViewCell {
+class BusCell: SwipeTableViewCell {
     
     let busNumberLbl: UILabel = {
         let lbl = UILabel()
@@ -36,12 +35,11 @@ class BusCell: UICollectionViewCell {
         return btn
     }()
     
-    let busActivityIndicator: MDCActivityIndicator = {
-        let av = MDCActivityIndicator()
+    let busActivityIndicator: UIActivityIndicatorView = {
+        let av = UIActivityIndicatorView()
         av.alpha = 0
-        av.cycleColors = [.white]
+        av.color = .white
         av.translatesAutoresizingMaskIntoConstraints = false
-        av.radius = CGFloat(14)
         return av
     }()
     
@@ -62,8 +60,8 @@ class BusCell: UICollectionViewCell {
     var nextBusTiming: String?
     var subBusTiming: String?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .white
         
@@ -78,9 +76,9 @@ class BusCell: UICollectionViewCell {
         
         _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: frame.height/2 - 75/2, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 125, heightConstant: 75)
         
-        _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: frame.height/2 - 70/2, leftConstant: 0, bottomConstant: 0, rightConstant: -13, widthConstant: 100, heightConstant: 70)
+        _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: frame.height/2 - 70/2, leftConstant: 0, bottomConstant: 0, rightConstant: -18, widthConstant: 100, heightConstant: 70)
         
-        _ = subsequentLbl.anchor(nil, left: nil, bottom: nextBusButton.bottomAnchor, right: nextBusButton.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 8, rightConstant: 20, widthConstant: 20, heightConstant: 20)
+        _ = subsequentLbl.anchor(nil, left: nil, bottom: nextBusButton.bottomAnchor, right: nextBusButton.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 8, rightConstant: 22, widthConstant: 20, heightConstant: 20)
         
         
         busActivityIndicator.centerXAnchor.constraint(equalTo: nextBusButton.centerXAnchor, constant: -5).isActive = true
@@ -104,7 +102,7 @@ class BusCell: UICollectionViewCell {
         
     }
     
-    func updateBusTimings() {
+    @objc func updateBusTimings() {
         
         busActivityIndicator.alpha = 1
         busActivityIndicator.startAnimating()

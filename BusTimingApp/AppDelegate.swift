@@ -19,8 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        let rootVC = BusTabBarController()
-
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        
+        let rootVC = UINavigationController(rootViewController: BusStopCollectionViewController())
 //        let rootVC = BusStopFlexibleHeaderContainerViewController()
         
         window = UIWindow(frame: UIScreen.main.bounds)

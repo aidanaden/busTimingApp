@@ -11,11 +11,19 @@ import SwiftyJSON
 
 class TempBusData: NSObject {
     
-    var stopNumber: String?
-    var busUrl: String?
-    var busNumber: String?
-    var nextBusTiming: String?
-    var subsequentBusTiming: String?
+    var _stopNumber: String?
+    var _busUrl: String?
+    var _busNumber: String?
+    var _nextBusTiming: String?
+    var _subsequentBusTiming: String?
+    
+    init(stopNumber: String, busUrl: String, busNumber: String, nextBus: String, subBus: String) {
+        _stopNumber = stopNumber
+        _busUrl = busUrl
+        _busNumber = busNumber
+        _nextBusTiming = nextBus
+        _subsequentBusTiming = subBus
+    }
     
     func updateTimings(completed: @escaping (_ downloadComplete: Bool) -> Void) {
         
@@ -25,9 +33,9 @@ class TempBusData: NSObject {
             
             do {
                 
-                guard let busURLString = self.busUrl, let stopId = self.stopNumber else { return }
+                guard let busURLString = self._busUrl, let stopId = self._stopNumber else { return }
                 
-                let urlString = busURLString + stopId + "&ServiceNo=" + self.busNumber!
+                let urlString = busURLString + stopId + "&ServiceNo=" + self._busNumber!
                 guard let url = URL(string: urlString) else { return }
                 let data = try Data(contentsOf: url)
                 json = JSON(data: data)
@@ -42,8 +50,8 @@ class TempBusData: NSObject {
                 let durationDate = bus["NextBus"]["EstimatedArrival"].stringValue
                 let subsequentDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
                     
-                self.nextBusTiming = self.convertDateFormater(date: durationDate)
-                self.subsequentBusTiming = self.convertDateFormater(date: subsequentDate)
+                self._nextBusTiming = self.convertDateFormater(date: durationDate)
+                self._subsequentBusTiming = self.convertDateFormater(date: subsequentDate)
                     
                 completed(true)
             }
@@ -83,54 +91,65 @@ class TempBusStopData: NSObject {
     
     var stopId: String?
     
-//    func readJSON(BusID: String) {
-//        
-//        var json: JSON!
-//        
-//        do {
-//            let urlString = itachBusUrl + BusID
-//            guard let url = URL(string: urlString) else { return }
-//            let data = try Data(contentsOf: url)
-//            json = JSON(data: data)
-//        } catch _ {
-//            print("Couldn't download bus data")
-//        }
-//        
-//        let busesDictionary = json["Services"].arrayValue
-//        for bus in busesDictionary {
-//            let busData = TempBusData()
-//            let nextBusDate = bus["NextBus"]["EstimatedArrival"].stringValue
-//            let subsequentBusDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
-//            
-//            busData.stopNumber = BusID
-//            busData.busUrl = itachBusUrl
-//            busData.busNumber = bus["ServiceNo"].stringValue
-//            busData.nextBusTiming = convertDateFormater(date: nextBusDate)
-//            busData.subsequentBusTiming = convertDateFormater(date: subsequentBusDate)
-//            busesData.append(busData)
-//        }
-//    }
-//    
-//    func convertDateFormater(date: String) -> String {
-//        
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-//        dateFormatter.timeZone = TimeZone(identifier: "GMT")
-//        
-//        if let date = dateFormatter.date(from: date) {
-//            
-//            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
-//            dateFormatter.timeZone = TimeZone(identifier: "SGT")
-//            let timeDifference = Int(date.timeIntervalSince(Date())/60)
-//            
-//            if timeDifference <= 0 {
-//                return "Arr"
-//            }
-//            
-//            print(timeDifference)
-//            return "\(timeDifference)"
-//        }
-//        
-//        return  ""
-//    }
+    func readJSON() -> [TempBusData] {
+        
+        var busArray = [TempBusData]()
+        var json: JSON!
+        
+        if let busStopID = self.stopId {
+            
+            do {
+                let urlString = itachBusUrl + busStopID
+                if let url = URL(string: urlString) {
+                    let data = try Data(contentsOf: url)
+                    json = JSON(data: data)
+                }
+                
+                
+            } catch _ {
+                print("Couldn't download bus data")
+            }
+            
+            let busesDictionary = json["Services"].arrayValue
+            for bus in busesDictionary {
+                
+                let nextBusDate = bus["NextBus"]["EstimatedArrival"].stringValue
+                let subsequentBusDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
+                
+                let stopNumber = busStopID
+                let busUrl = itachBusUrl
+                let busNumber = bus["ServiceNo"].stringValue
+                let nextBusTiming = convertDateFormater(date: nextBusDate)
+                let subsequentBusTiming = convertDateFormater(date: subsequentBusDate)
+                
+                let busData = TempBusData(stopNumber: stopNumber, busUrl: busUrl, busNumber: busNumber, nextBus: nextBusTiming, subBus: subsequentBusTiming)
+                busArray.append(busData)
+            }
+        }
+        
+        return busArray
+    }
+    
+    func convertDateFormater(date: String) -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        
+        if let date = dateFormatter.date(from: date) {
+            
+            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
+            dateFormatter.timeZone = TimeZone(identifier: "SGT")
+            let timeDifference = Int(date.timeIntervalSince(Date())/60)
+            
+            if timeDifference <= 0 {
+                return "Arr"
+            }
+            
+            print(timeDifference)
+            return "\(timeDifference)"
+        }
+        
+        return  ""
+    }
 }

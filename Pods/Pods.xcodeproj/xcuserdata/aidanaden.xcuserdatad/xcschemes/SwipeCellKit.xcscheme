@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "30C4CCFB1F56CDB5001F467E"
-               BuildableName = "BusTimingApp.app"
-               BlueprintName = "BusTimingApp"
-               ReferencedContainer = "container:BusTimingApp.xcodeproj">
+               BlueprintIdentifier = "15FC3CE55F708F7924766653426D76E0"
+               BuildableName = "SwipeCellKit.framework"
+               BlueprintName = "SwipeCellKit"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -30,15 +30,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "30C4CCFB1F56CDB5001F467E"
-            BuildableName = "BusTimingApp.app"
-            BlueprintName = "BusTimingApp"
-            ReferencedContainer = "container:BusTimingApp.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -53,16 +44,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "30C4CCFB1F56CDB5001F467E"
-            BuildableName = "BusTimingApp.app"
-            BlueprintName = "BusTimingApp"
-            ReferencedContainer = "container:BusTimingApp.xcodeproj">
+            BlueprintIdentifier = "15FC3CE55F708F7924766653426D76E0"
+            BuildableName = "SwipeCellKit.framework"
+            BlueprintName = "SwipeCellKit"
+            ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -72,16 +62,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "30C4CCFB1F56CDB5001F467E"
-            BuildableName = "BusTimingApp.app"
-            BlueprintName = "BusTimingApp"
-            ReferencedContainer = "container:BusTimingApp.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
