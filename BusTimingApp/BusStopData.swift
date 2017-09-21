@@ -16,6 +16,7 @@ class TempBusData: NSObject {
     var _busNumber: String?
     var _nextBusTiming: String?
     var _subsequentBusTiming: String?
+    var _bookmarked: Bool?
     
     init(stopNumber: String, busUrl: String, busNumber: String, nextBus: String, subBus: String) {
         _stopNumber = stopNumber
@@ -23,6 +24,7 @@ class TempBusData: NSObject {
         _busNumber = busNumber
         _nextBusTiming = nextBus
         _subsequentBusTiming = subBus
+        _bookmarked = false
     }
     
     func updateTimings(completed: @escaping (_ downloadComplete: Bool) -> Void) {

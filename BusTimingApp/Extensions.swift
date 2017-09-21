@@ -8,6 +8,16 @@
 
 import UIKit
 
+extension UITableViewController {
+    func hideKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UITableViewController.dismissKeyboard))
+        tableView.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        navigationItem.searchController?.searchBar.endEditing(true)
+    }
+}
 
 extension UITextField {
     func setLeftPaddingPoints(_ amount:CGFloat){

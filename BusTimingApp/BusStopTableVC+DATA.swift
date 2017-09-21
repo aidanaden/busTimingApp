@@ -16,6 +16,7 @@ extension BusStopCollectionViewController {
         
         self.busStopData.stopId = id
         busArray = busStopData.readJSON()
+
         tableView.reloadData()
     }
     
@@ -35,7 +36,7 @@ extension BusStopCollectionViewController {
             do {
                 try context.save()
                 print("saved!")
-                
+                loadData()
             } catch let err {
                 print(err)
             }
@@ -43,6 +44,8 @@ extension BusStopCollectionViewController {
     }
     
     func loadData() {
+        
+        storedBusArray.removeAll()
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         if let context = appDelegate?.persistentContainer.viewContext {
             
@@ -58,7 +61,32 @@ extension BusStopCollectionViewController {
                         storedBusArray.append(tempBus)
                     }
                 }
+                
                 busArray = storedBusArray
+                tableView.reloadData()
+            } catch let err {
+                print(err)
+            }
+        }
+    }
+    
+    func deleteData(index: Int) {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        if let context = appDelegate?.persistentContainer.viewContext {
+            
+            let fetchRequest = NSFetchRequest<BusData>(entityName: "BusData")
+            
+            do {
+                buses = try context.fetch(fetchRequest) as [BusData]
+                let removingBusData = buses[index]
+                context.delete(removingBusData)
+                try context.save()
+                print("DELETED")
+                busArray.remove(at: index)
+                
+                let indexPath = IndexPath(row: index, section: 0)
+                tableView.deleteRows(at: [indexPath], with: .left)
+                
             } catch let err {
                 print(err)
             }

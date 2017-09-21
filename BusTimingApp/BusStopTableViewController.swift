@@ -34,6 +34,7 @@ import SwipeCellKit
         tableView.register(BusCell.self, forCellReuseIdentifier: busCellId)
         tableView.backgroundColor = .white
         tableView.separatorStyle = .none
+        hideKeyboard()
     }
     
     func setupNavBar() {
@@ -48,6 +49,7 @@ import SwipeCellKit
         navigationItem.hidesSearchBarWhenScrolling = true
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
         definesPresentationContext = true
     }
     
@@ -83,7 +85,25 @@ import SwipeCellKit
     func updateSearchResults(for searchController: UISearchController) {
         // TODO
         if let text = searchController.searchBar.text {
-            setupStopData(id: text)
+            if text.characters.count < 5 {
+                return
+            } else {
+                setupStopData(id: text)
+            }
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        loadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let text = searchBar.text {
+            if text.characters.count < 5 {
+                return
+            } else {
+                setupStopData(id: text)
+            }
         }
     }
     
@@ -91,21 +111,33 @@ import SwipeCellKit
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         if orientation == .left {
-            let bookMark = SwipeAction(style: .default, title: "Bookmark", handler: { (swipeAction, indexPath) in
-                let tempBusData = self.busArray[indexPath.item]
+            
+            let tempBusData = self.busArray[indexPath.item]
+            
+            let bookmarkAction = SwipeAction(style: .default, title: "Bookmark", handler: { (swipeAction, indexPath) in
+                tempBusData._bookmarked = true
                 self.saveData(tempBusData: tempBusData)
             })
-            bookMark.hidesWhenSelected = true
-            bookMark.title = "Bookmark"
-            return [bookMark]
+        
+            bookmarkAction.transitionDelegate = ScaleTransition.default
+            
+            let deleteAction = SwipeAction(style: .destructive, title: "Delete", handler: { (swipeAction, indexPath) in
+                self.deleteData(index: indexPath.item)
+            })
+            
+            deleteAction.transitionDelegate = ScaleTransition.default
+                  
+            bookmarkAction.hidesWhenSelected = true
+            return [bookmarkAction, deleteAction]
+        
         }
         return nil
     }
     
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeTableOptions {
         var options = SwipeTableOptions()
-        options.transitionStyle = .reveal
-        
+        options.expansionStyle = SwipeExpansionStyle.selection
+    
         return options
     }
 }

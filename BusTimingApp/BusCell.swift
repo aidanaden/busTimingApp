@@ -19,6 +19,8 @@ class BusCell: SwipeTableViewCell {
         lbl.lineBreakMode = .byCharWrapping
         lbl.font = UIFont.systemFont(ofSize: 44)
 //        lbl.font = RobotoFont.regular(with: 44)
+        lbl.backgroundColor = .clear
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
     
@@ -54,6 +56,18 @@ class BusCell: SwipeTableViewCell {
         return subLbl
     }()
     
+    let busIdLbl: UILabel = {
+        let lbl = UILabel()
+        lbl.numberOfLines = 1
+        lbl.lineBreakMode = .byCharWrapping
+        lbl.font = UIFont.systemFont(ofSize: 15)
+        lbl.textColor = .darkGray
+        lbl.alpha = 0.7
+        lbl.backgroundColor = .clear
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
+    
     var busURL: String?
     var busNumber: String?
     var stopNumber: String?
@@ -66,6 +80,7 @@ class BusCell: SwipeTableViewCell {
         backgroundColor = .white
         
         addSubview(busNumberLbl)
+        addSubview(busIdLbl)
         addSubview(nextBusButton)
         addSubview(subsequentLbl)
         addSubview(busActivityIndicator)
@@ -74,7 +89,18 @@ class BusCell: SwipeTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: frame.height/2 - 75/2, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 125, heightConstant: 75)
+//        _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: frame.height/2 - 75/2, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 85, heightConstant: 75)
+        
+        busNumberLbl.topAnchor.constraint(equalTo: topAnchor, constant: frame.height/2 - 75/2).isActive = true
+        busNumberLbl.leftAnchor.constraint(equalTo: leftAnchor, constant: 24).isActive = true
+        busNumberLbl.heightAnchor.constraint(lessThanOrEqualToConstant: 75).isActive = true
+        busNumberLbl.widthAnchor.constraint(lessThanOrEqualToConstant: 90).isActive = true
+        
+//        _ = busIdLbl.anchor(nil, left: busNumberLbl.rightAnchor, bottom: bottomAnchor, right: nil, topConstant: 0, leftConstant: 5, bottomConstant: 18, rightConstant: 0, widthConstant: 65, heightConstant: 32)
+        busIdLbl.leadingAnchor.constraint(equalTo: busNumberLbl.leadingAnchor, constant: 4).isActive = true
+        busIdLbl.topAnchor.constraint(equalTo: busNumberLbl.bottomAnchor, constant: 0).isActive = true
+        busIdLbl.heightAnchor.constraint(lessThanOrEqualToConstant: 32).isActive = true
+        busIdLbl.widthAnchor.constraint(lessThanOrEqualToConstant: 58).isActive = true
         
         _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: frame.height/2 - 70/2, leftConstant: 0, bottomConstant: 0, rightConstant: -18, widthConstant: 100, heightConstant: 70)
         
@@ -96,7 +122,7 @@ class BusCell: SwipeTableViewCell {
         self.stopNumber = stopNum
         
         busNumberLbl.text = busNumber
-            
+        busIdLbl.text = stopNum
         nextBusButton.setTitle("\(nextBus)", for: .normal)
         subsequentLbl.text = subBus
         
@@ -124,7 +150,6 @@ class BusCell: SwipeTableViewCell {
                         self.subsequentLbl.text = subsequentbustiming
                     }
                 }
-                
             }
         }
     
