@@ -8,6 +8,18 @@
 
 import UIKit
 
+enum coolColor {
+    
+    case bookmarked, delete
+    
+    var color: UIColor {
+        switch self {
+        case .bookmarked: return #colorLiteral(red: 0, green: 0.4577052593, blue: 1, alpha: 1)
+        case .delete: return #colorLiteral(red: 1, green: 0.2352941176, blue: 0.1882352941, alpha: 1)
+        }
+    }
+}
+
 extension UITableViewController {
     func hideKeyboard() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UITableViewController.dismissKeyboard))
@@ -30,6 +42,10 @@ extension UITextField {
         self.rightView = paddingView
         self.rightViewMode = .always
     }
+}
+
+struct newColor {
+    
 }
 
 extension UISearchBar {

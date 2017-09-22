@@ -21,6 +21,29 @@ extension BusStopCollectionViewController {
     }
     
     
+    func updateBookmarkedValues(buses: [BusData]) {
+        let group = DispatchGroup()
+        self.storedBusArray.removeAll()
+        for bus in buses {
+            if let stopNo = bus.stopNumber, let url = bus.busUrl, let busNo = bus.busNumber, let next = bus.nextBusTiming, let sub = bus.subsequentBusTiming {
+                
+                let tempBus = TempBusData(stopNumber: stopNo, busUrl: url, busNumber: busNo, nextBus: next, subBus: sub)
+                tempBus._bookmarked = bus.bookMarked
+                group.enter()
+                tempBus.updateTimings(completed: { (completed) in
+                    if completed {
+                        self.storedBusArray.append(tempBus)
+                        group.leave()
+                    }
+                })
+            }
+        }
+        group.notify(queue: DispatchQueue.main) {
+            self.busArray = self.storedBusArray
+            self.tableView.reloadData()
+        }
+    }
+    
     func saveData(tempBusData: TempBusData) {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         if let context = appDelegate?.persistentContainer.viewContext {
@@ -32,11 +55,12 @@ extension BusStopCollectionViewController {
             newBusData.nextBusTiming = tempBusData._nextBusTiming
             newBusData.subsequentBusTiming = tempBusData._nextBusTiming
             newBusData.stopNumber = tempBusData._stopNumber
+            newBusData.bookMarked = tempBusData._bookmarked!
             
             do {
                 try context.save()
                 print("saved!")
-                loadData()
+                
             } catch let err {
                 print(err)
             }
@@ -44,8 +68,7 @@ extension BusStopCollectionViewController {
     }
     
     func loadData() {
-        
-        storedBusArray.removeAll()
+    
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         if let context = appDelegate?.persistentContainer.viewContext {
             
@@ -53,17 +76,20 @@ extension BusStopCollectionViewController {
             
             do {
                 buses = try context.fetch(fetchRequest) as [BusData]
-        
-                for bus in buses {
-                    if let stopNo = bus.stopNumber, let url = bus.busUrl, let busNo = bus.busNumber, let next = bus.nextBusTiming, let sub = bus.subsequentBusTiming {
-                        
-                        let tempBus = TempBusData(stopNumber: stopNo, busUrl: url, busNumber: busNo, nextBus: next, subBus: sub)
-                        storedBusArray.append(tempBus)
-                    }
-                }
                 
-                busArray = storedBusArray
-                tableView.reloadData()
+                updateBookmarkedValues(buses: buses)
+                
+//                for tempBusData in storedBusArray {
+//                    tempBusData.updateTimings(completed: { (complete) in
+//                        if complete {
+//                            self.busArray.append(tempBusData)
+//                        }
+//                    })
+//                }
+                
+                
+                
+                
             } catch let err {
                 print(err)
             }

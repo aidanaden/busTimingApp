@@ -73,6 +73,8 @@ class BusCell: SwipeTableViewCell {
     var stopNumber: String?
     var nextBusTiming: String?
     var subBusTiming: String?
+    var nextStanding: String?
+    var subStanding: String?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -91,7 +93,7 @@ class BusCell: SwipeTableViewCell {
         
 //        _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: frame.height/2 - 75/2, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 85, heightConstant: 75)
         
-        busNumberLbl.topAnchor.constraint(equalTo: topAnchor, constant: frame.height/2 - 75/2).isActive = true
+        busNumberLbl.topAnchor.constraint(equalTo: topAnchor, constant: frame.height/2 - 75/2 + 2).isActive = true
         busNumberLbl.leftAnchor.constraint(equalTo: leftAnchor, constant: 24).isActive = true
         busNumberLbl.heightAnchor.constraint(lessThanOrEqualToConstant: 75).isActive = true
         busNumberLbl.widthAnchor.constraint(lessThanOrEqualToConstant: 90).isActive = true
@@ -113,16 +115,20 @@ class BusCell: SwipeTableViewCell {
         
     }
     
-    func populateCell(busNumber: String, nextBus: String, subBus: String, busURL: String, stopNum: String) {
+    func populateCell(busNumber: String, nextBus: String, subBus: String, busURL: String, stopNum: String, bookMarked: Bool, nextStanding: String, subStanding: String) {
         
         self.busNumber = busNumber
         self.nextBusTiming = nextBus
         self.subBusTiming = subBus
         self.busURL = busURL
         self.stopNumber = stopNum
+        self.nextStanding = nextStanding
+        self.subStanding = subStanding
         
         busNumberLbl.text = busNumber
         busIdLbl.text = stopNum
+        checkStandingStatusButton(busTiming: nextBus, standingStatus: nextStanding, nextBtn: nextBusButton)
+        checkStandingStatusLabel(busTiming: subBus, standingStatus: subStanding, subLbl: subsequentLbl)
         nextBusButton.setTitle("\(nextBus)", for: .normal)
         subsequentLbl.text = subBus
         
@@ -145,7 +151,12 @@ class BusCell: SwipeTableViewCell {
                     self.busActivityIndicator.stopAnimating()
                     self.busActivityIndicator.alpha = 0
                     
-                    if let nextbustiming = self.nextBusTiming, let subsequentbustiming = self.subBusTiming {
+                    if let nextbustiming = self.nextBusTiming, let subsequentbustiming = self.subBusTiming, let nextStanding = self.nextStanding, let subStanding = self.subStanding {
+                        
+                        self.checkStandingStatusButton(busTiming: nextbustiming, standingStatus: nextStanding, nextBtn: self.nextBusButton)
+                        
+                        self.checkStandingStatusLabel(busTiming: subsequentbustiming, standingStatus: subStanding, subLbl: self.subsequentLbl)
+                        
                         self.nextBusButton.setTitle("\(nextbustiming)", for: .normal)
                         self.subsequentLbl.text = subsequentbustiming
                     }
@@ -177,16 +188,20 @@ class BusCell: SwipeTableViewCell {
                 
                 let durationDate = bus["NextBus"]["EstimatedArrival"].stringValue
                 let subsequentDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
+                let nextStanding = bus["NextBus"]["Load"].stringValue
+                let subStanding = bus["SubsequentBus"]["Load"].stringValue
                 
                 self.nextBusTiming = self.convertDateFormater(date: durationDate)
                 self.subBusTiming = self.convertDateFormater(date: subsequentDate)
+                self.nextStanding = nextStanding
+                self.subStanding = subStanding
                 
                 completed(true)
             }
         }
     }
 
-    
+    // HELPER FUNCTIONS
     func convertDateFormater(date: String) -> String {
         
         let dateFormatter = DateFormatter()
@@ -207,6 +222,30 @@ class BusCell: SwipeTableViewCell {
         }
         
         return  ""
+    }
+    
+    func checkStandingStatusButton(busTiming: String, standingStatus: String, nextBtn: UIButton) {
+        if busTiming == "Arr" {
+            if standingStatus == "Seats Available" {
+                nextBtn.setTitleColor(.green, for: .normal)
+            } else if standingStatus == "Standing Available" {
+                nextBtn.setTitleColor(.orange, for: .normal)
+            }
+        } else if standingStatus != "Arr" {
+            nextBtn.setTitleColor(.white, for: .normal)
+        }
+    }
+    
+    func checkStandingStatusLabel(busTiming: String, standingStatus: String, subLbl: UILabel) {
+        if busTiming == "Arr" {
+            if standingStatus == "Seats Available" {
+                subLbl.textColor = .green
+            } else if standingStatus == "Standing Available" {
+                subLbl.textColor = .orange
+            }
+        } else if standingStatus != "Arr" {
+            subLbl.textColor = .white
+        }
     }
 
 

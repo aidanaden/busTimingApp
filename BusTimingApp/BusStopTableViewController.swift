@@ -25,6 +25,7 @@ import SwipeCellKit
     private let busCellId = "BusCellId"
     let itachBusUrl = "http://api.itachi1706.com/api/busarrival.php?BusStopID="
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,14 +34,17 @@ import SwipeCellKit
         setupSearchController()
         tableView.register(BusCell.self, forCellReuseIdentifier: busCellId)
         tableView.backgroundColor = .white
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.tableFooterView = UIView()
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         hideKeyboard()
     }
     
     func setupNavBar() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Timings"
-//        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.alpha = 1
+        navigationController?.navigationBar.barTintColor = .white
     }
     
     func setupSearchController() {
@@ -68,9 +72,9 @@ import SwipeCellKit
         cell.selectionStyle = .none
         cell.delegate = self
         
-        if let busNumber = busData._busNumber, let nextBus = busData._nextBusTiming, let subBus = busData._subsequentBusTiming, let busURL = busData._busUrl, let stopNum = busData._stopNumber {
+        if let busNumber = busData._busNumber, let nextBus = busData._nextBusTiming, let subBus = busData._subsequentBusTiming, let busURL = busData._busUrl, let stopNum = busData._stopNumber, let bookmarked = busData._bookmarked, let nextStanding = busData._nextStanding, let subStanding = busData._subStanding {
             
-            cell.populateCell(busNumber: busNumber, nextBus: nextBus, subBus: subBus, busURL: busURL, stopNum: stopNum)
+            cell.populateCell(busNumber: busNumber, nextBus: nextBus, subBus: subBus, busURL: busURL, stopNum: stopNum, bookMarked: bookmarked, nextStanding: nextStanding, subStanding: subStanding)
         }
         
         return cell
@@ -114,32 +118,47 @@ import SwipeCellKit
             
             let tempBusData = self.busArray[indexPath.item]
             
-            let bookmarkAction = SwipeAction(style: .default, title: "Bookmark", handler: { (swipeAction, indexPath) in
-                tempBusData._bookmarked = true
-                self.saveData(tempBusData: tempBusData)
+            let bookmarkAction = SwipeAction(style: .default, title: nil, handler: { (swipeAction, indexPath) in
+                if let bookmarkStatus = tempBusData._bookmarked {
+                    let reverseBookmarkStatus = !bookmarkStatus
+                    tempBusData._bookmarked = reverseBookmarkStatus
+                    if reverseBookmarkStatus {
+                        self.saveData(tempBusData: tempBusData)
+                    } else {
+                        self.deleteData(index: indexPath.item)
+                    }
+                }
             })
-        
-            bookmarkAction.transitionDelegate = ScaleTransition.default
-            
-            let deleteAction = SwipeAction(style: .destructive, title: "Delete", handler: { (swipeAction, indexPath) in
-                self.deleteData(index: indexPath.item)
-            })
-            
-            deleteAction.transitionDelegate = ScaleTransition.default
-                  
+
+            if let bookmarkStatus = tempBusData._bookmarked {
+                
+                let title = bookmarkStatus ? "Delete" : "Bookmark"
+                let backgroundColor = bookmarkStatus ? coolColor.delete.color :  coolColor.bookmarked.color
+                let style = bookmarkStatus ? SwipeActionStyle.destructive : SwipeActionStyle.default
+                setActionTitleAndBackgroundColor(bookmarkAction, title: title, backgroundColor: backgroundColor, swipeActionStyle: style)
+            }
+
             bookmarkAction.hidesWhenSelected = true
-            return [bookmarkAction, deleteAction]
-        
+            return [bookmarkAction]
         }
         return nil
     }
     
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeTableOptions {
         var options = SwipeTableOptions()
-        options.expansionStyle = SwipeExpansionStyle.selection
+//        let percentageTarget = SwipeExpansionStyle.Target.percentage(0.5)
+//        options.expansionStyle = SwipeExpansionStyle.selection
+        options.backgroundColor = .clear
     
         return options
     }
+    
+    func setActionTitleAndBackgroundColor(_ action: SwipeAction, title: String, backgroundColor: UIColor, swipeActionStyle: SwipeActionStyle) {
+        action.title = title
+        action.backgroundColor = backgroundColor
+        action.style = swipeActionStyle
+    }
+    
 }
  
  
