@@ -8,6 +8,31 @@
 
 import UIKit
 
+let apiKey = "kbiNegy0Tm2c5MRVbYrFBA=="
+let busParameter = "&ServiceNo="
+let dataUrl = "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode="
+
+func convertDateFormater(date: String) -> String {
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+    dateFormatter.timeZone = TimeZone(identifier: "SGT")
+    
+    if let date = dateFormatter.date(from: date) {
+        
+        //            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
+        //            dateFormatter.timeZone = TimeZone(identifier: "SGT")
+        let timeDifference = Int(date.timeIntervalSince(Date())/60)
+        
+        if timeDifference <= 0 {
+            return "Arr"
+        }
+        
+        return "\(timeDifference)"
+    }
+    return  ""
+}
+
 enum coolColor {
     
     case bookmarked, delete
@@ -44,8 +69,10 @@ extension UITextField {
     }
 }
 
-struct newColor {
-    
+extension String {
+    var containsCharacter: Bool {
+        return !isEmpty && range(of: "[a-zA-Z]", options: .regularExpression) == nil
+    }
 }
 
 extension UISearchBar {

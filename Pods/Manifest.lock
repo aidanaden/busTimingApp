@@ -1,8 +1,10 @@
 PODS:
+  - Alamofire (4.5.0)
   - SwiftyJSON (3.1.4)
   - SwipeCellKit (1.9.1)
 
 DEPENDENCIES:
+  - Alamofire (~> 4.5)
   - SwiftyJSON
   - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `swift4`)
 
@@ -17,9 +19,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SwipeCellKit/SwipeCellKit.git
 
 SPEC CHECKSUMS:
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   SwipeCellKit: 9fa65dd73e52e8fd139fec4d8f7d7cb44fa00559
 
-PODFILE CHECKSUM: 25a9e1b3655552dc587a62df4876fa30c8eb9a35
+PODFILE CHECKSUM: 93ed660eef2e5855eba7ef3824ef0fef062366de
 
 COCOAPODS: 1.0.1

@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import SwiftyJSON
 import SwipeCellKit
+import Alamofire
 
  class BusStopCollectionViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating, SwipeTableViewCellDelegate {
     
@@ -23,8 +24,6 @@ import SwipeCellKit
     let kSPRINGVELOCITY: CGFloat = 0
     
     private let busCellId = "BusCellId"
-    let itachBusUrl = "http://api.itachi1706.com/api/busarrival.php?BusStopID="
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

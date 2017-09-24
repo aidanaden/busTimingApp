@@ -8,5 +8,6 @@ target 'BusTimingApp' do
   # Pods for BusTimingApp
   pod 'SwiftyJSON'
   pod 'SwipeCellKit', :git => 'https://github.com/SwipeCellKit/SwipeCellKit.git', :branch => 'swift4'
+  pod 'Alamofire', '~> 4.5'
 
 end

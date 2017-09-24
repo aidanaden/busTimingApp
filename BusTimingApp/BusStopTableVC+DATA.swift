@@ -15,9 +15,10 @@ extension BusStopCollectionViewController {
     func setupStopData(id: String) {
         
         self.busStopData.stopId = id
-        busArray = busStopData.readJSON()
-
-        tableView.reloadData()
+        busStopData.readJSON(completionHandler: { (busesArray) in
+            self.busArray = busesArray
+            self.tableView.reloadData()
+        })
     }
     
     
@@ -39,6 +40,25 @@ extension BusStopCollectionViewController {
             }
         }
         group.notify(queue: DispatchQueue.main) {
+            self.storedBusArray.sort(by: { (a, b) -> Bool in
+                
+                let firstBusNumString = a._busNumber!.trimmingCharacters(in: CharacterSet(charactersIn: "1234567890").inverted)
+                let secondBusNumString = b._busNumber!.trimmingCharacters(in: CharacterSet(charactersIn: "1234567890").inverted)
+                
+                let firstNum = Int(firstBusNumString)
+                let secondNum = Int(secondBusNumString)
+                let firstStop = Int(a._stopNumber!)
+                let secondStop = Int(b._stopNumber!)
+                
+                if firstStop != secondStop {
+                    return firstStop! < secondStop!
+                } else if firstNum != secondNum {
+                    return firstNum! < secondNum!
+                }
+                
+                return false
+            })
+            
             self.busArray = self.storedBusArray
             self.tableView.reloadData()
         }
@@ -76,19 +96,7 @@ extension BusStopCollectionViewController {
             
             do {
                 buses = try context.fetch(fetchRequest) as [BusData]
-                
                 updateBookmarkedValues(buses: buses)
-                
-//                for tempBusData in storedBusArray {
-//                    tempBusData.updateTimings(completed: { (complete) in
-//                        if complete {
-//                            self.busArray.append(tempBusData)
-//                        }
-//                    })
-//                }
-                
-                
-                
                 
             } catch let err {
                 print(err)

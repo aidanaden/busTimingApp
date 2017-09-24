@@ -10,6 +10,7 @@ import UIKit
 import SwiftyJSON
 import CoreData
 import SwipeCellKit
+import Alamofire
 
 class BusCell: SwipeTableViewCell {
     
@@ -168,83 +169,87 @@ class BusCell: SwipeTableViewCell {
     
     func updateTimings(busURLString: String, stopId: String, busNumber: String, completed: @escaping (_ downloadComplete: Bool) -> Void) {
         
-        var json: JSON!
-        
         DispatchQueue.global().async {
             
-            do {
-                
-                let urlString = busURLString + stopId + "&ServiceNo=" + busNumber
-                guard let url = URL(string: urlString) else { return }
-                let data = try Data(contentsOf: url)
-                json = JSON(data: data)
-                
-            } catch _ {
-                print("Couldn't update bus timings!")
-            }
+            let urlString = dataUrl + stopId + busParameter + busNumber
+            guard let url = URL(string: urlString) else { return }
+            let parameters = ["AccountKey" : apiKey,
+                              "accept" : "application/json"]
             
-            let busesDictionary = json["Services"].arrayValue
-            for bus in busesDictionary {
-                
-                let durationDate = bus["NextBus"]["EstimatedArrival"].stringValue
-                let subsequentDate = bus["SubsequentBus"]["EstimatedArrival"].stringValue
-                let nextStanding = bus["NextBus"]["Load"].stringValue
-                let subStanding = bus["SubsequentBus"]["Load"].stringValue
-                
-                self.nextBusTiming = self.convertDateFormater(date: durationDate)
-                self.subBusTiming = self.convertDateFormater(date: subsequentDate)
-                self.nextStanding = nextStanding
-                self.subStanding = subStanding
-                
-                completed(true)
-            }
+            Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: parameters ).responseJSON(completionHandler: { (response) in
+                if let data = response.result.value as? [String: Any] {
+                    
+                    let busesDictionary = data["Services"] as! [[String: Any]]
+                    
+                    for bus in busesDictionary {
+                        
+                        
+                        let nextBus = bus["NextBus"] as! [String: String]
+                        let subsequentBus = bus["NextBus2"] as! [String: String]
+                        let nextBusDate = nextBus["EstimatedArrival"] as! String
+                        let subsequentBusDate = subsequentBus["EstimatedArrival"] as! String
+                        
+                        self.nextBusTiming = convertDateFormater(date: nextBusDate)
+                        self.subBusTiming = convertDateFormater(date: subsequentBusDate)
+                        self.nextStanding = nextBus["Load"] as! String
+                        self.subStanding = subsequentBus["Load"] as! String
+                        
+                        completed(true)
+                    }
+                }
+            })
+            
         }
-    }
-
-    // HELPER FUNCTIONS
-    func convertDateFormater(date: String) -> String {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        dateFormatter.timeZone = TimeZone(identifier: "GMT")
-        
-        if let date = dateFormatter.date(from: date) {
-            
-            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
-            dateFormatter.timeZone = TimeZone(identifier: "SGT")
-            let timeDifference = Int(date.timeIntervalSince(Date())/60)
-            
-            if timeDifference <= 0 {
-                return "Arr"
-            }
-            
-            return "\(timeDifference)"
-        }
-        
-        return  ""
     }
     
+    
+    
     func checkStandingStatusButton(busTiming: String, standingStatus: String, nextBtn: UIButton) {
+
         if busTiming == "Arr" {
-            if standingStatus == "Seats Available" {
+            if standingStatus == "SEA" {
                 nextBtn.setTitleColor(.green, for: .normal)
-            } else if standingStatus == "Standing Available" {
-                nextBtn.setTitleColor(.orange, for: .normal)
+            } else if standingStatus == "SDA" {
+                nextBtn.setTitleColor(.yellow, for: .normal)
+            } else if standingStatus == "LSD" {
+                nextBtn.setTitleColor(.red, for: .normal)
             }
         } else if standingStatus != "Arr" {
-            nextBtn.setTitleColor(.white, for: .normal)
+            if Int(busTiming)! <= 2 {
+                if standingStatus == "SEA" {
+                    nextBtn.setTitleColor(.green, for: .normal)
+                } else if standingStatus == "SDA" {
+                    nextBtn.setTitleColor(.yellow, for: .normal)
+                } else if standingStatus == "LSD" {
+                    nextBtn.setTitleColor(.red, for: .normal)
+                }
+            } else {
+                nextBtn.setTitleColor(.white, for: .normal)
+            }
         }
     }
     
     func checkStandingStatusLabel(busTiming: String, standingStatus: String, subLbl: UILabel) {
         if busTiming == "Arr" {
-            if standingStatus == "Seats Available" {
+            if standingStatus == "SEA" {
                 subLbl.textColor = .green
-            } else if standingStatus == "Standing Available" {
-                subLbl.textColor = .orange
+            } else if standingStatus == "SDA" {
+                subLbl.textColor = .yellow
+            } else if standingStatus == "LSD" {
+                subLbl.textColor = .red
             }
         } else if standingStatus != "Arr" {
-            subLbl.textColor = .white
+            if Int(busTiming)! <= 2 {
+                if standingStatus == "SEA" {
+                    subLbl.textColor = .green
+                } else if standingStatus == "SDA" {
+                    subLbl.textColor = .yellow
+                } else if standingStatus == "LSD" {
+                    subLbl.textColor = .red
+                }
+            } else {
+                subLbl.textColor = .white
+            }
         }
     }
 
