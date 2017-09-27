@@ -5,7 +5,7 @@
 ////  Created by Aidan Aden on 30/8/17.
 ////  Copyright © 2017 Aidan Aden. All rights reserved.
 ////
-//
+
 import UIKit
 import SwiftyJSON
 import Alamofire
@@ -20,21 +20,38 @@ class TempBusData: NSObject {
     var _bookmarked: Bool?
     var _nextStanding: String?
     var _subStanding: String?
+    var _nextBusType: String?
+    var _subBusType: String?
     
-    init(stopNumber: String, busUrl: String, busNumber: String, nextBus: String, subBus: String) {
+    init(stopNumber: String, busUrl: String, busNumber: String) {
+        
         _stopNumber = stopNumber
         _busUrl = busUrl
         _busNumber = busNumber
-        _nextBusTiming = nextBus
-        _subsequentBusTiming = subBus
         _bookmarked = false
     }
     
-    func updateTimings(completed: @escaping (_ downloadComplete: Bool) -> Void) {
+    convenience init(stopNumber: String, busUrl: String, busNumber: String, nextBus: String, subBus: String, nextBusType: String, subBusType: String, nextStanding: String, subStanding: String) {
+        self.init(stopNumber: stopNumber, busUrl: busUrl, busNumber: busNumber)
+        
+        _nextBusTiming = nextBus
+        _subsequentBusTiming = subBus
+        _nextBusType = nextBusType
+        _subBusType = subBusType
+        _nextStanding = nextStanding
+        _subStanding = subStanding
+    }
+    
+    convenience init(busData: BusData) {
+        self.init(stopNumber: busData.stopNumber!, busUrl: busData.busUrl!, busNumber: busData.busNumber!)
+        _bookmarked = busData.bookMarked
+    }
+   
+    
+    @objc func updateTimings(completed: @escaping (_ downloadComplete: Bool) -> Void) {
         
         DispatchQueue.global().async {
-            
-//            do {
+        
             guard let stopNumber = self._stopNumber, let busNumber = self._busNumber else {
                 print("no bus or stop number")
                 return
@@ -54,19 +71,22 @@ class TempBusData: NSObject {
                         
                         let nextBus = bus["NextBus"] as! [String: String]
                         let subsequentBus = bus["NextBus2"] as! [String: String]
-                        let nextBusDate = nextBus["EstimatedArrival"] as! String
-                        let subsequentBusDate = subsequentBus["EstimatedArrival"] as! String
+                        let nextBusDate = nextBus["EstimatedArrival"]!
+                        let subsequentBusDate = subsequentBus["EstimatedArrival"]!
+                        let nextBusType = nextBus["Type"]
+                        let subBusType = subsequentBus["Type"]
                         
                         self._nextBusTiming = convertDateFormater(date: nextBusDate)
                         self._subsequentBusTiming = convertDateFormater(date: subsequentBusDate)
-                        self._nextStanding = nextBus["Load"] as! String
-                        self._subStanding = subsequentBus["Load"] as! String
+                        self._nextStanding = nextBus["Load"]
+                        self._subStanding = subsequentBus["Load"]
+                        self._nextBusType = nextBusType
+                        self._subBusType = subBusType
                         
                         completed(true)
                     }
                 }
             })
-    
         }
     }
 }
@@ -96,20 +116,23 @@ class TempBusStopData: NSObject {
                             
                             let nextBus = bus["NextBus"] as! [String: String]
                             let subsequentBus = bus["NextBus2"] as! [String: String]
-                            let nextBusDate = nextBus["EstimatedArrival"] as! String
-                            let subsequentBusDate = subsequentBus["EstimatedArrival"] as! String
-                            
+                            let nextBusDate = nextBus["EstimatedArrival"]!
+                            let subsequentBusDate = subsequentBus["EstimatedArrival"]!
                             let stopNumber = busStopID
                             let busUrl = dataUrl
                             let busNumber = bus["ServiceNo"] as! String
                             let nextBusTiming = convertDateFormater(date: nextBusDate)
                             let subsequentBusTiming = convertDateFormater(date: subsequentBusDate)
-                            let nextStanding = nextBus["Load"] as! String
-                            let subStanding = subsequentBus["Load"] as! String
                             
-                            let busData = TempBusData(stopNumber: stopNumber, busUrl: busUrl, busNumber: busNumber, nextBus: nextBusTiming, subBus: subsequentBusTiming)
-                            busData._nextStanding = nextStanding
-                            busData._subStanding = subStanding
+                            
+                            let nextStanding = nextBus["Load"]!
+                            let subStanding = subsequentBus["Load"]!
+                            let nextBusType = nextBus["Type"]!
+                            let subBusType = subsequentBus["Type"]!
+                            
+                            let busData = TempBusData(stopNumber: stopNumber, busUrl: busUrl, busNumber: busNumber, nextBus: nextBusTiming, subBus: subsequentBusTiming, nextBusType: nextBusType
+                                , subBusType: subBusType, nextStanding: nextStanding, subStanding: subStanding)
+                            
                             busArray.append(busData)
                             print(busArray.count)
                         }

@@ -40,8 +40,13 @@ import Alamofire
     }
     
     func setupNavBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "Timings"
+        
+        let refreshNavButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(updateBusArrayTimings))
+        navigationItem.rightBarButtonItem = refreshNavButton
+        navigationItem.rightBarButtonItem?.tintColor = .black
+        navigationItem.title = "Timings"
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.alpha = 1
         navigationController?.navigationBar.barTintColor = .white
     }
@@ -71,9 +76,9 @@ import Alamofire
         cell.selectionStyle = .none
         cell.delegate = self
         
-        if let busNumber = busData._busNumber, let nextBus = busData._nextBusTiming, let subBus = busData._subsequentBusTiming, let busURL = busData._busUrl, let stopNum = busData._stopNumber, let bookmarked = busData._bookmarked, let nextStanding = busData._nextStanding, let subStanding = busData._subStanding {
+        if let busNumber = busData._busNumber, let nextBus = busData._nextBusTiming, let subBus = busData._subsequentBusTiming, let busURL = busData._busUrl, let stopNum = busData._stopNumber, let bookmarked = busData._bookmarked, let nextStanding = busData._nextStanding, let subStanding = busData._subStanding, let nextBusType = busData._nextBusType, let subBusType = busData._subBusType {
             
-            cell.populateCell(busNumber: busNumber, nextBus: nextBus, subBus: subBus, busURL: busURL, stopNum: stopNum, bookMarked: bookmarked, nextStanding: nextStanding, subStanding: subStanding)
+            cell.populateCell(busNumber: busNumber, nextBus: nextBus, subBus: subBus, busURL: busURL, stopNum: stopNum, bookMarked: bookmarked, nextStanding: nextStanding, subStanding: subStanding, nextBusType: nextBusType, subBusType: subBusType)
         }
         
         return cell

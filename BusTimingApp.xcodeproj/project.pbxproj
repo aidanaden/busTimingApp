@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3074B1D31F79557100C9DFEC /* Custom Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3074B1D21F79557100C9DFEC /* Custom Views.swift */; };
 		309633DB1F5EE514004E9E13 /* Odin Rounded in Resources */ = {isa = PBXBuildFile; fileRef = 309633DA1F5EE514004E9E13 /* Odin Rounded */; };
 		309633FF1F6030EC004E9E13 /* BusAppTiming.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 309633FD1F6030EC004E9E13 /* BusAppTiming.xcdatamodeld */; };
 		309634011F604126004E9E13 /* BusStopTableVC+DATA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309634001F604126004E9E13 /* BusStopTableVC+DATA.swift */; };
@@ -24,6 +25,7 @@
 		1E09C8581454F4359BD0EAE6 /* Pods_BusTimingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BusTimingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AD0AFD3789422A593410CAB /* Pods-BusTimingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusTimingApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BusTimingApp/Pods-BusTimingApp.release.xcconfig"; sourceTree = "<group>"; };
 		305F7D52DB54033A680A32C6 /* Pods-BusTimingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusTimingApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BusTimingApp/Pods-BusTimingApp.debug.xcconfig"; sourceTree = "<group>"; };
+		3074B1D21F79557100C9DFEC /* Custom Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Views.swift"; sourceTree = "<group>"; };
 		309633DA1F5EE514004E9E13 /* Odin Rounded */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Odin Rounded"; sourceTree = "<group>"; };
 		309633FE1F6030EC004E9E13 /* BusAppTiming.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BusAppTiming.xcdatamodel; sourceTree = "<group>"; };
 		309634001F604126004E9E13 /* BusStopTableVC+DATA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BusStopTableVC+DATA.swift"; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				30C4CD191F56E980001F467E /* BusCell.swift */,
+				3074B1D21F79557100C9DFEC /* Custom Views.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				30C4CD021F56CDB5001F467E /* BusStopTableViewController.swift in Sources */,
 				30C4CD001F56CDB5001F467E /* AppDelegate.swift in Sources */,
 				30C4CD1A1F56E980001F467E /* BusCell.swift in Sources */,
+				3074B1D31F79557100C9DFEC /* Custom Views.swift in Sources */,
 				309634011F604126004E9E13 /* BusStopTableVC+DATA.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,7 +396,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aidan.BusTimingApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -408,7 +412,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aidan.BusTimingApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

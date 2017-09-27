@@ -53,7 +53,7 @@ class BusCell: SwipeTableViewCell {
         subLbl.font = UIFont.systemFont(ofSize: 15)
 //        subLbl.font = RobotoFont.regular(with: 15)
         subLbl.textColor = .white
-        subLbl.textAlignment = .right
+        subLbl.textAlignment = .center
         return subLbl
     }()
     
@@ -69,6 +69,22 @@ class BusCell: SwipeTableViewCell {
         return lbl
     }()
     
+    let firstBusTypeBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let secondBusTypeBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.clipsToBounds = true
+        return view
+    }()
+    
     var busURL: String?
     var busNumber: String?
     var stopNumber: String?
@@ -76,6 +92,8 @@ class BusCell: SwipeTableViewCell {
     var subBusTiming: String?
     var nextStanding: String?
     var subStanding: String?
+    var nextBusType: String?
+    var subBusType: String?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -86,20 +104,20 @@ class BusCell: SwipeTableViewCell {
         addSubview(busIdLbl)
         addSubview(nextBusButton)
         addSubview(subsequentLbl)
+        addSubview(firstBusTypeBar)
+        addSubview(secondBusTypeBar)
         addSubview(busActivityIndicator)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-//        _ = busNumberLbl.anchor(topAnchor, left: leftAnchor, bottom: nil, right: nil, topConstant: frame.height/2 - 75/2, leftConstant: 24, bottomConstant: 0, rightConstant: 0, widthConstant: 85, heightConstant: 75)
+
         
         busNumberLbl.topAnchor.constraint(equalTo: topAnchor, constant: frame.height/2 - 75/2 + 2).isActive = true
         busNumberLbl.leftAnchor.constraint(equalTo: leftAnchor, constant: 24).isActive = true
         busNumberLbl.heightAnchor.constraint(lessThanOrEqualToConstant: 75).isActive = true
-        busNumberLbl.widthAnchor.constraint(lessThanOrEqualToConstant: 90).isActive = true
+        busNumberLbl.widthAnchor.constraint(lessThanOrEqualToConstant: 120).isActive = true
         
-//        _ = busIdLbl.anchor(nil, left: busNumberLbl.rightAnchor, bottom: bottomAnchor, right: nil, topConstant: 0, leftConstant: 5, bottomConstant: 18, rightConstant: 0, widthConstant: 65, heightConstant: 32)
         busIdLbl.leadingAnchor.constraint(equalTo: busNumberLbl.leadingAnchor, constant: 4).isActive = true
         busIdLbl.topAnchor.constraint(equalTo: busNumberLbl.bottomAnchor, constant: 0).isActive = true
         busIdLbl.heightAnchor.constraint(lessThanOrEqualToConstant: 32).isActive = true
@@ -108,15 +126,26 @@ class BusCell: SwipeTableViewCell {
         _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: frame.height/2 - 70/2, leftConstant: 0, bottomConstant: 0, rightConstant: -18, widthConstant: 100, heightConstant: 70)
         
         _ = subsequentLbl.anchor(nil, left: nil, bottom: nextBusButton.bottomAnchor, right: nextBusButton.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 8, rightConstant: 22, widthConstant: 20, heightConstant: 20)
+
+        firstBusTypeBar.topAnchor.constraint(equalTo: nextBusButton.topAnchor, constant: 12).isActive = true
+        firstBusTypeBar.leftAnchor.constraint(equalTo: nextBusButton.leftAnchor, constant: 28).isActive = true
+        firstBusTypeBar.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        firstBusTypeBar.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        firstBusTypeBar.layer.cornerRadius = firstBusTypeBar.frame.height/4
         
-        
+        secondBusTypeBar.bottomAnchor.constraint(equalTo: subsequentLbl.topAnchor, constant: -3).isActive = true
+        secondBusTypeBar.leadingAnchor.constraint(equalTo: subsequentLbl.leadingAnchor, constant: 5).isActive = true
+        secondBusTypeBar.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        secondBusTypeBar.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        secondBusTypeBar.layer.cornerRadius = secondBusTypeBar.frame.height/4
+
+
         busActivityIndicator.centerXAnchor.constraint(equalTo: nextBusButton.centerXAnchor, constant: -5).isActive = true
         busActivityIndicator.centerYAnchor.constraint(equalTo: nextBusButton.centerYAnchor).isActive = true
         
-        
     }
     
-    func populateCell(busNumber: String, nextBus: String, subBus: String, busURL: String, stopNum: String, bookMarked: Bool, nextStanding: String, subStanding: String) {
+    func populateCell(busNumber: String, nextBus: String, subBus: String, busURL: String, stopNum: String, bookMarked: Bool, nextStanding: String, subStanding: String, nextBusType: String, subBusType: String) {
         
         self.busNumber = busNumber
         self.nextBusTiming = nextBus
@@ -125,6 +154,8 @@ class BusCell: SwipeTableViewCell {
         self.stopNumber = stopNum
         self.nextStanding = nextStanding
         self.subStanding = subStanding
+        self.nextBusType = nextBusType
+        self.subBusType = subBusType
         
         busNumberLbl.text = busNumber
         busIdLbl.text = stopNum
@@ -132,6 +163,8 @@ class BusCell: SwipeTableViewCell {
         checkStandingStatusLabel(busTiming: subBus, standingStatus: subStanding, subLbl: subsequentLbl)
         nextBusButton.setTitle("\(nextBus)", for: .normal)
         subsequentLbl.text = subBus
+        setFirstLbl(firstBusType: nextBusType)
+        setSecondLbl(secondBusType: subBusType)
         
     }
     
@@ -160,6 +193,15 @@ class BusCell: SwipeTableViewCell {
                         
                         self.nextBusButton.setTitle("\(nextbustiming)", for: .normal)
                         self.subsequentLbl.text = subsequentbustiming
+                        
+                        if let nextBusType = self.nextBusType {
+                            self.setFirstLbl(firstBusType: nextBusType)
+                        }
+                        
+                        if let subBusType = self.subBusType {
+                            self.setSecondLbl(secondBusType: subBusType)
+                        }
+                        
                     }
                 }
             }
@@ -183,16 +225,20 @@ class BusCell: SwipeTableViewCell {
                     
                     for bus in busesDictionary {
                         
-                        
                         let nextBus = bus["NextBus"] as! [String: String]
                         let subsequentBus = bus["NextBus2"] as! [String: String]
-                        let nextBusDate = nextBus["EstimatedArrival"] as! String
-                        let subsequentBusDate = subsequentBus["EstimatedArrival"] as! String
+                        let nextBusDate = nextBus["EstimatedArrival"]!
+                        let subsequentBusDate = subsequentBus["EstimatedArrival"]!
+                        let nextBusType = nextBus["Type"]
+                        let subBusType = subsequentBus["Type"]
                         
+                    
                         self.nextBusTiming = convertDateFormater(date: nextBusDate)
                         self.subBusTiming = convertDateFormater(date: subsequentBusDate)
-                        self.nextStanding = nextBus["Load"] as! String
-                        self.subStanding = subsequentBus["Load"] as! String
+                        self.nextStanding = nextBus["Load"]
+                        self.subStanding = subsequentBus["Load"]
+                        self.nextBusType = nextBusType
+                        self.subBusType = subBusType
                         
                         completed(true)
                     }
@@ -203,56 +249,79 @@ class BusCell: SwipeTableViewCell {
     }
     
     
-    
     func checkStandingStatusButton(busTiming: String, standingStatus: String, nextBtn: UIButton) {
 
-        if busTiming == "Arr" {
+        if busTiming != "Arr" {
+            if let intBusTiming = Int(busTiming) {
+                if intBusTiming <= 3 {
+                    if standingStatus == "SEA" {
+                        nextBtn.setTitleColor(.green, for: .normal)
+                    } else if standingStatus == "SDA" {
+                        nextBtn.setTitleColor(standingColor, for: .normal)
+                    } else if standingStatus == "LSD" {
+                        nextBtn.setTitleColor(.red, for: .normal)
+                    }
+                } else {
+                    nextBtn.setTitleColor(.white, for: .normal)
+                }
+            }
+        } else {
             if standingStatus == "SEA" {
                 nextBtn.setTitleColor(.green, for: .normal)
             } else if standingStatus == "SDA" {
-                nextBtn.setTitleColor(.yellow, for: .normal)
+                nextBtn.setTitleColor(standingColor, for: .normal)
             } else if standingStatus == "LSD" {
                 nextBtn.setTitleColor(.red, for: .normal)
-            }
-        } else if standingStatus != "Arr" {
-            if Int(busTiming)! <= 2 {
-                if standingStatus == "SEA" {
-                    nextBtn.setTitleColor(.green, for: .normal)
-                } else if standingStatus == "SDA" {
-                    nextBtn.setTitleColor(.yellow, for: .normal)
-                } else if standingStatus == "LSD" {
-                    nextBtn.setTitleColor(.red, for: .normal)
-                }
-            } else {
-                nextBtn.setTitleColor(.white, for: .normal)
             }
         }
     }
     
     func checkStandingStatusLabel(busTiming: String, standingStatus: String, subLbl: UILabel) {
-        if busTiming == "Arr" {
+        
+        if busTiming != "Arr" {
+            if let intBusTiming = Int(busTiming) {
+                if intBusTiming <= 3 {
+                    if standingStatus == "SEA" {
+                        subLbl.textColor = .green
+                    } else if standingStatus == "SDA" {
+                        subLbl.textColor = standingColor
+                    } else if standingStatus == "LSD" {
+                        subLbl.textColor = .red
+                    }
+                } else {
+                    subLbl.textColor = .white
+                }
+            }
+        } else {
             if standingStatus == "SEA" {
                 subLbl.textColor = .green
             } else if standingStatus == "SDA" {
-                subLbl.textColor = .yellow
+                subLbl.textColor = standingColor
             } else if standingStatus == "LSD" {
                 subLbl.textColor = .red
             }
-        } else if standingStatus != "Arr" {
-            if Int(busTiming)! <= 2 {
-                if standingStatus == "SEA" {
-                    subLbl.textColor = .green
-                } else if standingStatus == "SDA" {
-                    subLbl.textColor = .yellow
-                } else if standingStatus == "LSD" {
-                    subLbl.textColor = .red
-                }
-            } else {
-                subLbl.textColor = .white
-            }
         }
     }
-
+    
+    func setFirstLbl(firstBusType: String) {
+        if firstBusType == "SD" {
+            firstBusTypeBar.alpha = 0
+        } else if firstBusType == "DD" {
+            firstBusTypeBar.alpha = 0.9
+        }
+    }
+    
+    func setSecondLbl(secondBusType: String) {
+        if subsequentLbl.text != "" {
+            if secondBusType == "SD" {
+                secondBusTypeBar.alpha = 0
+            } else if secondBusType == "DD" {
+                secondBusTypeBar.alpha = 0.9
+            }
+        } else {
+            secondBusTypeBar.alpha = 0
+        }
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

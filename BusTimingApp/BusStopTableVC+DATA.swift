@@ -21,24 +21,37 @@ extension BusStopCollectionViewController {
         })
     }
     
-    
-    func updateBookmarkedValues(buses: [BusData]) {
-        let group = DispatchGroup()
-        self.storedBusArray.removeAll()
-        for bus in buses {
-            if let stopNo = bus.stopNumber, let url = bus.busUrl, let busNo = bus.busNumber, let next = bus.nextBusTiming, let sub = bus.subsequentBusTiming {
-                
-                let tempBus = TempBusData(stopNumber: stopNo, busUrl: url, busNumber: busNo, nextBus: next, subBus: sub)
-                tempBus._bookmarked = bus.bookMarked
-                group.enter()
-                tempBus.updateTimings(completed: { (completed) in
-                    if completed {
-                        self.storedBusArray.append(tempBus)
-                        group.leave()
-                    }
-                })
+    @objc func updateBusArrayTimings() {
+        
+        let max = busArray.count
+        for num in 0..<max {
+            
+            let index = IndexPath(row: num, section: 0)
+            if let cell = tableView.cellForRow(at: index) as? BusCell {
+                cell.updateBusTimings()
             }
         }
+    }
+    
+    func updateBookmarkedValues(buses: [BusData]) {
+        
+        let group = DispatchGroup()
+        self.storedBusArray.removeAll()
+        
+        for bus in buses {
+            let tempBus = TempBusData(busData: bus)
+            group.enter()
+            tempBus.updateTimings(completed: { (completed) in
+                if completed {
+                    self.storedBusArray.append(tempBus)
+                    group.leave()
+                } else {
+                    self.storedBusArray.append(tempBus)
+                    group.leave()
+                }
+            })
+        }
+        
         group.notify(queue: DispatchQueue.main) {
             self.storedBusArray.sort(by: { (a, b) -> Bool in
                 
@@ -55,12 +68,13 @@ extension BusStopCollectionViewController {
                 } else if firstNum != secondNum {
                     return firstNum! < secondNum!
                 }
-                
+    
                 return false
             })
             
             self.busArray = self.storedBusArray
             self.tableView.reloadData()
+            print("reloaded table")
         }
     }
     
@@ -72,8 +86,6 @@ extension BusStopCollectionViewController {
             
             newBusData.busUrl = tempBusData._busUrl
             newBusData.busNumber = tempBusData._busNumber
-            newBusData.nextBusTiming = tempBusData._nextBusTiming
-            newBusData.subsequentBusTiming = tempBusData._nextBusTiming
             newBusData.stopNumber = tempBusData._stopNumber
             newBusData.bookMarked = tempBusData._bookmarked!
             
@@ -125,27 +137,5 @@ extension BusStopCollectionViewController {
                 print(err)
             }
         }
-    }
-    
-    func convertDateFormater(date: String) -> String {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        dateFormatter.timeZone = TimeZone(identifier: "GMT")
-        
-        if let date = dateFormatter.date(from: date) {
-            
-            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
-            dateFormatter.timeZone = TimeZone(identifier: "SGT")
-            let timeDifference = Int(date.timeIntervalSince(Date())/60)
-            
-            if timeDifference <= 0 {
-                return "Arr"
-            }
-            
-            return "\(timeDifference)"
-        }
-        
-        return  ""
     }
 }

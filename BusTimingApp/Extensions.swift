@@ -12,6 +12,8 @@ let apiKey = "kbiNegy0Tm2c5MRVbYrFBA=="
 let busParameter = "&ServiceNo="
 let dataUrl = "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode="
 
+let standingColor = UIColor(red: 255/255, green: 179/255, blue: 0, alpha: 1)
+
 func convertDateFormater(date: String) -> String {
     
     let dateFormatter = DateFormatter()
@@ -20,8 +22,6 @@ func convertDateFormater(date: String) -> String {
     
     if let date = dateFormatter.date(from: date) {
         
-        //            dateFormatter.dateFormat = "yyyy MMM EEEE HH:mm"
-        //            dateFormatter.timeZone = TimeZone(identifier: "SGT")
         let timeDifference = Int(date.timeIntervalSince(Date())/60)
         
         if timeDifference <= 0 {

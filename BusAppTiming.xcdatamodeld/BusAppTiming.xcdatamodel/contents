@@ -4,15 +4,13 @@
         <attribute name="bookMarked" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="busNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="busUrl" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="nextBusTiming" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stopNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="subsequentBusTiming" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="BusStopData" representedClassName="BusStopData" syncable="YES" codeGenerationType="class">
         <attribute name="stopId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BusData" positionX="-2" positionY="-45" width="128" height="135"/>
+        <element name="BusData" positionX="-2" positionY="-45" width="128" height="105"/>
         <element name="BusStopData" positionX="-236" positionY="-106" width="128" height="58"/>
     </elements>
 </model>
