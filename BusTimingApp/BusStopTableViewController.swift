@@ -85,7 +85,7 @@ import Alamofire
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 90
     }
     
     // UISEARCH RESULTS UPDATING DELEGATE

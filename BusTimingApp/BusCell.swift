@@ -18,8 +18,7 @@ class BusCell: SwipeTableViewCell {
         let lbl = UILabel()
         lbl.numberOfLines = 1
         lbl.lineBreakMode = .byCharWrapping
-        lbl.font = UIFont.systemFont(ofSize: 44)
-//        lbl.font = RobotoFont.regular(with: 44)
+        lbl.font = UIFont.systemFont(ofSize: 38)
         lbl.backgroundColor = .clear
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -30,7 +29,6 @@ class BusCell: SwipeTableViewCell {
         btn.backgroundColor = .black
         btn.addTarget(self, action: #selector(updateBusTimings), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 32)
-//        btn.titleLabel?.font = RobotoFont.regular(with: 32)
         btn.titleLabel?.textAlignment = .left
         btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 27)
         btn.layer.cornerRadius = 12
@@ -51,7 +49,6 @@ class BusCell: SwipeTableViewCell {
         subLbl.numberOfLines = 1
         subLbl.lineBreakMode = .byCharWrapping
         subLbl.font = UIFont.systemFont(ofSize: 15)
-//        subLbl.font = RobotoFont.regular(with: 15)
         subLbl.textColor = .white
         subLbl.textAlignment = .center
         return subLbl
@@ -118,12 +115,12 @@ class BusCell: SwipeTableViewCell {
         busNumberLbl.heightAnchor.constraint(lessThanOrEqualToConstant: 75).isActive = true
         busNumberLbl.widthAnchor.constraint(lessThanOrEqualToConstant: 120).isActive = true
         
-        busIdLbl.leadingAnchor.constraint(equalTo: busNumberLbl.leadingAnchor, constant: 4).isActive = true
+        busIdLbl.leadingAnchor.constraint(equalTo: busNumberLbl.leadingAnchor, constant: 0).isActive = true
         busIdLbl.topAnchor.constraint(equalTo: busNumberLbl.bottomAnchor, constant: 0).isActive = true
         busIdLbl.heightAnchor.constraint(lessThanOrEqualToConstant: 32).isActive = true
         busIdLbl.widthAnchor.constraint(lessThanOrEqualToConstant: 58).isActive = true
         
-        _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: frame.height/2 - 70/2, leftConstant: 0, bottomConstant: 0, rightConstant: -18, widthConstant: 100, heightConstant: 70)
+        _ = nextBusButton.anchor(topAnchor, left: nil, bottom: nil, right: rightAnchor, topConstant: frame.height/2 - 70/2, leftConstant: 0, bottomConstant: 0, rightConstant: -18, widthConstant: 100, heightConstant: 65)
         
         _ = subsequentLbl.anchor(nil, left: nil, bottom: nextBusButton.bottomAnchor, right: nextBusButton.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 8, rightConstant: 22, widthConstant: 20, heightConstant: 20)
 
@@ -140,7 +137,7 @@ class BusCell: SwipeTableViewCell {
         secondBusTypeBar.layer.cornerRadius = secondBusTypeBar.frame.height/4
 
 
-        busActivityIndicator.centerXAnchor.constraint(equalTo: nextBusButton.centerXAnchor, constant: -5).isActive = true
+        busActivityIndicator.centerXAnchor.constraint(equalTo: nextBusButton.centerXAnchor, constant: -13.5).isActive = true
         busActivityIndicator.centerYAnchor.constraint(equalTo: nextBusButton.centerYAnchor).isActive = true
         
     }

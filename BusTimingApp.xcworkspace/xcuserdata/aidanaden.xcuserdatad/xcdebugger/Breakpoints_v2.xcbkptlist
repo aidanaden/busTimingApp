@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "528182534.965632"
+            timestampString = "530950273.265124"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "208"
             endingLineNumber = "208"
-            landmarkName = "updateBusTimings()"
-            landmarkType = "7">
+            landmarkName = "BusCell"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -63,7 +63,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "528182534.967633"
+            timestampString = "530950273.26583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "88"
@@ -127,7 +127,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "528182534.969235"
+            timestampString = "530950273.266346"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "170"
@@ -143,7 +143,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "528182534.970631"
+            timestampString = "530950273.266925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -191,11 +191,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopData.swift"
-            timestampString = "528182534.972132"
+            timestampString = "530942708.176267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "readJSON(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -207,11 +207,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusStopData.swift"
-            timestampString = "528182534.972953"
+            timestampString = "530942708.176454"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "readJSON(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -223,7 +223,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BusTimingApp/BusCell.swift"
-            timestampString = "528182534.973839"
+            timestampString = "530950273.2679"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "148"
